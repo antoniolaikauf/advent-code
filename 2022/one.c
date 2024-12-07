@@ -1,11 +1,20 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <ctype.h>
-#include <string.h>
+#define length 250
+
+void rimozione_elemento(int element, int arr[])
+{
+    for (int i = 0; i < length; i++)
+    {
+        if (arr[i] == element)
+            arr[i] = 0;
+    }
+}
 
 int main()
 {
-    FILE *file = fopen("input.txt", "r"); 
+    FILE *file = fopen("input.txt", "r");
     if (file == NULL)
     {
         printf("file non trovato");
@@ -16,36 +25,61 @@ int main()
         int calories = 0;
         int number;
         int indice = 0;
-        int length = 250;
         int calories_elf[length];
         char buffer[100];
-        // buffer è dove verra salvata la linea del file e legge fino a 100 caratteri 
-        while (fgets(buffer, sizeof(buffer), file)) // legge ogni riga fino a 100 caratteri 
+        // buffer è dove verra salvata la linea del file e legge fino a 100 caratteri
+        while (fgets(buffer, sizeof(buffer), file)) // legge ogni riga fino a 100 caratteri
         {
-            if (sscanf(buffer, "%d", &number) == 1) // check number 
+            if (sscanf(buffer, "%d", &number) == 1) // check number
             {
                 calories += number;
             }
             else
             {
                 calories_elf[indice] = calories;
+                printf("%d\n", calories);
                 indice++;
                 calories = 0;
             }
         }
 
         int max = 0;
-
+        int top_three[3];
+        int index_top_three = 0;
         for (int i = 0; i < length; i++)
         {
             if (max < calories_elf[i])
             {
                 max = calories_elf[i];
+                top_three[index_top_three] = max;
                 printf("%d\n", max);
             }
         }
 
         printf("attuale: %d\n", max);
+        while (index_top_three < 3)
+        {
+            int max_top_three = 0;
+            for (int i = 0; i < length; i++)
+            {
+                if (max_top_three < calories_elf[i])
+                {
+                    max_top_three = calories_elf[i];
+                    top_three[index_top_three] = max_top_three;
+                    // printf("%d\n", max);
+                }
+            }
+            rimozione_elemento(max_top_three, calories_elf);
+            index_top_three++;
+        }
+        int sum = 0;
+        for (int i = 0; i < 3; i++)
+        {
+            printf("%d\n", top_three[i]);
+            sum += top_three[i];
+            // printf("%d\n", top_three[i]);
+        }
+        printf("%d\n", sum);
     }
 
     return 0;

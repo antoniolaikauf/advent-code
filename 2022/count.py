@@ -6,3 +6,4 @@ with open('input.txt', mode='r') as f :
         if x[0] == '\n':
             count+=1
     print(count)
+
