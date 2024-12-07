@@ -3,11 +3,6 @@
 #include <ctype.h>
 #include <string.h>
 
-int is_int(int numebr)
-{
-    return 1;
-}
-
 int main()
 {
     FILE *file = fopen("small.txt", "r");
@@ -18,24 +13,36 @@ int main()
     }
     else
     {
-        char buffer[100]; // spazio per leggere la riga del file
         // buffer è dove viene salvato il file
         int calories = 0;
         int number;
+        int indice = 0;
+        int length = 5;
+        int calories_elf[length];
+        char buffer[100]; // spazio per leggere la riga del file
         while (fgets(buffer, sizeof(buffer), file))
         {
-            printf("%s", buffer);
 
-            if (is_int(buffer))
+            // Prova a convertire la linea in un number intero
+            if (sscanf(buffer, "%d", &number) == 1)
             {
-                printf("jfjfjffffffffffffffj");
+                // Stampa il number letto
+                calories += number;
+                printf("Hai inserito: %d\n", number);
             }
             else
             {
-                printf("jfjjfj");
+                calories_elf[indice] = calories;
+                indice++;
+                calories = 0;
+                printf("Input non valido: '%s'", buffer);
             }
         }
-        // printf("%d\n", calories);
+
+        for (int i = 0; i < length; i++)
+        {
+            printf("%d\n", calories_elf[i]);
+        }
     }
 
     return 0;
