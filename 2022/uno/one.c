@@ -44,19 +44,25 @@ int main()
         }
 
         int max = 0;
-        int top_three[3];
-        int index_top_three = 0;
         for (int i = 0; i < length; i++)
         {
             if (max < calories_elf[i])
             {
                 max = calories_elf[i];
-                top_three[index_top_three] = max;
-                printf("%d\n", max);
+                // printf("%d\n", max);
             }
         }
 
         printf("attuale: %d\n", max);
+
+
+        //-----------------------------------------------------------------
+        //seconda parte
+        //-----------------------------------------------------------------
+
+
+        int top_three[3];
+        int index_top_three = 0;
         while (index_top_three < 3)
         {
             int max_top_three = 0;
@@ -66,18 +72,18 @@ int main()
                 {
                     max_top_three = calories_elf[i];
                     top_three[index_top_three] = max_top_three;
-                    // printf("%d\n", max);
                 }
             }
+            // trasformo elemento massimo in 0 in calories
             rimozione_elemento(max_top_three, calories_elf);
             index_top_three++;
         }
+        // somma top 3 caloria
         int sum = 0;
         for (int i = 0; i < 3; i++)
         {
             printf("%d\n", top_three[i]);
             sum += top_three[i];
-            // printf("%d\n", top_three[i]);
         }
         printf("%d\n", sum);
     }
