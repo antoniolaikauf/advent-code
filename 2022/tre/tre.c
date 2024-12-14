@@ -38,6 +38,7 @@ int controllo_presenza(char lettera, char lettere[], int len)
 // Funzione per calcolare il punteggio della lettera
 int calcolo(char lettera)
 {
+    // utilizzato codice ascii invece di fare direttamente un array e controllatre la posizione delle lettera 
     if (isupper(lettera))
     {
         return lettera - 'A' + 27;
@@ -49,7 +50,7 @@ int calcolo(char lettera)
     return 0;
 }
 
-// // funzione per rimuovere lo spazio che non si vede
+// funzione per rimuovere lo spazio che non si vede
 char *trimwhitespace(char *str)
 {
     char *end;
