@@ -14,6 +14,7 @@ x forbici
 #include <stdio.h>
 #include <stdlib.h>
 #include <ctype.h>
+#include <string.h>
 
 int main()
 {
@@ -22,29 +23,49 @@ int main()
         return 0;
 
     int score;
-    char buffer[250];
-    // array due dimensioni 
-    const char combinazioni[][5] = {
-        "A Y",
-        "A X",
-        "A Z",
-        "B Y",
-        "B X",
-        "B Z",
-        "C Y",
-        "C X",
-        "C Z"};
+    char buffer[250]; // capire come mai se metti 3 te ne fa di più di cicli
+    int somma = 0;
+
+    const char combinazioni[][3][5] = {
+        // draw
+        {
+            "A Z",
+            "B Y",
+            "C X",
+        },
+        // loss
+        {
+            "A X",
+            "B Z",
+            "C Y",
+        },
+        // winn
+        {"A Y",
+         "B X",
+         "C Z"}};
 
     int length = sizeof(combinazioni) / sizeof(combinazioni[0]);
 
-    for (int i = 0; i < length; i++)
-    {
-        printf("%s\n", combinazioni[i]);
-    }
-
     while (fgets(buffer, sizeof(buffer), file))
     {
-        printf("%s", buffer);
+        buffer[strcspn(buffer, "\n")] = 0;
+        printf("Linea letta: %s\n", buffer);
+
+        for (int i = 0; i < 3; i++)
+        {
+            for (int j = 0; j < 3; j++)
+            {
+                // printf("%d", strcmp(buffer, combinazioni[i][j]) == 0);
+                if (strcmp(buffer, combinazioni[i][j]) == 0)
+                {
+                    score += (i + 1) * 2;
+                    printf("  %s\n", combinazioni[i][j]);
+                }
+            }
+        }
     }
+    printf("%d", score);
     return 0;
 }
+
+//== compara se i due puntatatori sono uguali e non il valore
