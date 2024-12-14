@@ -1,13 +1,10 @@
-// #include <stdio.h>
-// #include <string.h>
-// #include <ctype.h>
-// #include <stdlib.h>
-
 #include <stdio.h>
 #include <string.h>
 #include <ctype.h>
 #include <stdlib.h>
 #define lenght_alfabeto 52
+
+
 void divisione_parola(char parola[], int len, char **s1, char **s2)
 {
     int left = len / 2;
