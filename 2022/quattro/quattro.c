@@ -25,6 +25,7 @@ char *trimwhitespace(char *str)
     return str;
 }
 
+// si divide le due coppie di numeri in numeri separati
 int split_number(char f[], int result[])
 {
     for (int i = 0; i < strlen(f); i++)
@@ -46,9 +47,18 @@ int split_number(char f[], int result[])
     return 0;
 }
 
-
 int check(int first[], int second[])
 {
+
+    /*
+    prima possibilità
+    10       20
+      12   17
+    seconda possibilità
+      12   17
+    10       20
+
+    */
     if ((second[0] >= first[0] && second[1] <= first[1]) ||
         (first[0] >= second[0] && first[1] <= second[1]))
     {
@@ -75,7 +85,7 @@ int main()
             {
                 int numbers_first[2];
                 int numbers_second[2];
-
+                // alloca memoria alle due coppie di numeri
                 char *first = (char *)malloc((i + 1) * sizeof(char));
                 char *second = (char *)malloc((strlen(buffer) - i) * sizeof(char));
                 strncpy(first, buffer, i);
@@ -83,8 +93,8 @@ int main()
                 first[i] = '\0';
                 second[strlen(buffer) - i - 1] = '\0'; // Termina la stringa
 
-                split_number(first, numbers_first);
-                split_number(second, numbers_second);
+                split_number(first, numbers_first);   // prima coppia
+                split_number(second, numbers_second); // seconda coppia
 
                 somma += check(numbers_first, numbers_second);
 
