@@ -25,9 +25,8 @@ char *trimwhitespace(char *str)
     return str;
 }
 
-char split_number(char f[])
+int split_number(char f[], int result[])
 {
-    char numbers[2];
     for (int i = 0; i < strlen(f); i++)
     {
         if (f[i] == '-')
@@ -36,26 +35,24 @@ char split_number(char f[])
             char *first_second = (char *)malloc((strlen(f) - i) * sizeof(char));
             strncpy(first_first, f, i);
             strncpy(first_second, f + (i + 1), strlen(f) - i);
-            numbers[0] = (int) *first_first;
-            numbers[1] = (int) *first_second;
-            printf(" primo %ld secondo %s\n", sizeof(first_first), first_second);
+            result[0] = atoi(first_first);
+            result[1] = atoi(first_second);
+
+            printf("Primo numero: %d, Secondo numero: %d\n", result[0], result[1]);
+            free(first_first);
+            free(first_second);
         }
     }
-    return *numbers;
+    return 0;
+}
+
+int check(int first[], int second[])
+{
+    printf("%d, %d", first[0]), first[1];
 }
 
 int main()
 {
-
-    char source[] = "Hello, World!";
-    char destination[6]; // Adjust the size based on the part you want to extract
-
-    // Copy the first 5 characters from source to destination
-    strncpy(destination, source, 5);
-
-    // Ensure the destination string is null-terminated
-    destination[5] = '\0';
-
     FILE *file = fopen("small.txt", "r");
     if (file == NULL)
         return 0;
@@ -67,14 +64,21 @@ int main()
         {
             if (buffer[i] == ',')
             {
+                int numbers_first[2];
+                int numbers_second[2];
+
                 char *first = (char *)malloc((i + 1) * sizeof(char));
                 char *second = (char *)malloc((strlen(buffer) - i) * sizeof(char));
                 strncpy(first, buffer, i);
                 strncpy(second, buffer + (1 + i), strlen(buffer) - i);
                 first[i] = '\0';
                 second[strlen(buffer) - i - 1] = '\0'; // Termina la stringa
-                split_number(first);
-                split_number(second);
+
+                split_number(first, numbers_first);
+                split_number(second, numbers_second);
+
+                check(numbers_first, numbers_second);
+
                 printf("prima parte %s, seconda parte %s\n", first, second);
                 free(first); // Libera la memoria allocata
                 free(second);
