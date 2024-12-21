@@ -148,6 +148,14 @@ char *trimwhitespace(char *str)
     return str;
 }
 
+int calcolo(int lettera)
+{
+    if (isupper(lettera))
+        return lettera - 'A' + 27;
+    else if (islower(lettera))
+        return lettera - 'a' + 1;
+}
+
 // funzione per capire le lettere se sono gia state trovate
 int controllo_presenza(char lettera, char lettere[], int len)
 {
@@ -211,6 +219,17 @@ void confronto(char w[], char b[])
     }
 }
 
+char selezione(char valori[])
+{
+    for (int i = 0; i < strlen(valori); i++)
+    {
+        if (('A' < valori[i] && valori[i] < 'Z') || ( 'a' < valori[i] && valori[i] < 'z'))
+            {
+                return valori[i];
+            }
+    }
+}
+
 int main()
 {
     FILE *file = fopen("small.txt", "r");
@@ -224,10 +243,11 @@ int main()
     int index = 0;
     while (fgets(buffer, sizeof(buffer), file))
     {
-        // printf("%s", word);
         trimwhitespace(buffer);
         if (index % 3 == 0)
         {
+            char lettera = selezione(word);
+            somma += calcolo(lettera);
             memset(word, 0, sizeof(word)); // Resetta word
             count = 0;
             ricerca(word, buffer, &count);
@@ -238,6 +258,6 @@ int main()
         }
         index++;
     }
-    printf("%s\n", word);
+    printf("%d\n", somma);
     return 0;
 }
