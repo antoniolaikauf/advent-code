@@ -27,6 +27,16 @@ char *trimwhitespace(char *str)
 
 int main()
 {
+
+    char source[] = "Hello, World!";
+    char destination[6]; // Adjust the size based on the part you want to extract
+
+    // Copy the first 5 characters from source to destination
+    strncpy(destination, source, 5);
+
+    // Ensure the destination string is null-terminated
+    destination[5] = '\0';
+
     FILE *file = fopen("small.txt", "r");
     if (file == NULL)
         return 0;
@@ -34,7 +44,21 @@ int main()
     while (fgets(buffer, sizeof(buffer), file))
     {
         trimwhitespace(buffer);
-        printf("%s\n", buffer);
+        // printf("%s\n", buffer);
+        char first[5];
+        char second[5];
+        for (int i = 0; i < strlen(buffer); i++)
+        {
+            if (buffer[i] == ',')
+            {
+                strncpy(first, buffer, i);
+                strncpy(second, buffer + (1 + i), strlen(buffer) - i);
+                first[4] = '\0';
+                second[4] = '\0';
+                break;
+            }
+        }
+        printf("prima parte %s, seconda parte %s\n", first, second);
     }
     return 0;
 }
