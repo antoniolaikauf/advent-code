@@ -28,20 +28,20 @@ char *trimwhitespace(char *str)
 char split_number(char f[])
 {
     char numbers[2];
-    char fisrt_first[3];
-    char fisrt_second[3];
     for (int i = 0; i < strlen(f); i++)
     {
         if (f[i] == '-')
         {
-            strncpy(fisrt_first, f, i);
-            strncpy(fisrt_second, f + (i + 1), strlen(f) - i);
-            // numbers[0] = fisrt_first;
-            // numbers[1] = fisrt_second;
-            printf(" primo %s secondo %s\n", fisrt_first, fisrt_second);
+            char *first_first = (char *)malloc((i + 1) * sizeof(char));
+            char *first_second = (char *)malloc((strlen(f) - i) * sizeof(char));
+            strncpy(first_first, f, i);
+            strncpy(first_second, f + (i + 1), strlen(f) - i);
+            numbers[0] = (int) *first_first;
+            numbers[1] = (int) *first_second;
+            printf(" primo %ld secondo %s\n", sizeof(first_first), first_second);
         }
     }
-    // return numbers;
+    return *numbers;
 }
 
 int main()
@@ -73,8 +73,8 @@ int main()
                 strncpy(second, buffer + (1 + i), strlen(buffer) - i);
                 first[i] = '\0';
                 second[strlen(buffer) - i - 1] = '\0'; // Termina la stringa
-                // split_number(first);
-                // split_number(second);
+                split_number(first);
+                split_number(second);
                 printf("prima parte %s, seconda parte %s\n", first, second);
                 free(first); // Libera la memoria allocata
                 free(second);
