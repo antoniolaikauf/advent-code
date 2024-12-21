@@ -175,7 +175,7 @@ void ricerca(char w[], char word[], int *count)
 {
 
     char lettere[100] = {0};
-    for (int i = 'A'; i < 'Z'; i++)
+    for (int i = 'A'; i < 'Z' + 1; i++)
     {
         for (int y = 0; y < strlen(word); y++)
         {
@@ -215,24 +215,27 @@ void confronto(char w[], char b[])
         {
             w[i] = '0';
         }
-        printf("array sono wua  %s\n\n", w);
+        // printf("array sono wua  %s\n\n", w);
     }
 }
 
 char selezione(char valori[])
 {
+
+    printf("array sono wua  %s\n\n", valori);
     for (int i = 0; i < strlen(valori); i++)
     {
-        if (('A' < valori[i] && valori[i] < 'Z') || ( 'a' < valori[i] && valori[i] < 'z'))
-            {
-                return valori[i];
-            }
+        if (('A' < valori[i] && valori[i] < 'Z' + 1) || ('a' < valori[i] && valori[i] < 'z' + 1))
+        {
+            printf("%d                    jjjfjfj", valori[i]);
+            return valori[i];
+        }
     }
 }
 
 int main()
 {
-    FILE *file = fopen("small.txt", "r");
+    FILE *file = fopen("input.txt", "r");
     if (file == NULL)
         return 0;
 
