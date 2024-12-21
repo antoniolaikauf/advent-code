@@ -25,6 +25,25 @@ char *trimwhitespace(char *str)
     return str;
 }
 
+char split_number(char f[])
+{
+    char numbers[2];
+    char fisrt_first[3];
+    char fisrt_second[3];
+    for (int i = 0; i < strlen(f); i++)
+    {
+        if (f[i] == '-')
+        {
+            strncpy(fisrt_first, f, i);
+            strncpy(fisrt_second, f + (i + 1), strlen(f) - i);
+            // numbers[0] = fisrt_first;
+            // numbers[1] = fisrt_second;
+            printf(" primo %s secondo %s\n", fisrt_first, fisrt_second);
+        }
+    }
+    // return numbers;
+}
+
 int main()
 {
 
@@ -44,21 +63,24 @@ int main()
     while (fgets(buffer, sizeof(buffer), file))
     {
         trimwhitespace(buffer);
-        // printf("%s\n", buffer);
-        char first[5];
-        char second[5];
         for (int i = 0; i < strlen(buffer); i++)
         {
             if (buffer[i] == ',')
             {
+                char *first = (char *)malloc((i + 1) * sizeof(char));
+                char *second = (char *)malloc((strlen(buffer) - i) * sizeof(char));
                 strncpy(first, buffer, i);
                 strncpy(second, buffer + (1 + i), strlen(buffer) - i);
-                first[4] = '\0';
-                second[4] = '\0';
+                first[i] = '\0';
+                second[strlen(buffer) - i - 1] = '\0'; // Termina la stringa
+                // split_number(first);
+                // split_number(second);
+                printf("prima parte %s, seconda parte %s\n", first, second);
+                free(first); // Libera la memoria allocata
+                free(second);
                 break;
             }
         }
-        printf("prima parte %s, seconda parte %s\n", first, second);
     }
     return 0;
 }
