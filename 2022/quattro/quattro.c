@@ -46,17 +46,26 @@ int split_number(char f[], int result[])
     return 0;
 }
 
+
 int check(int first[], int second[])
 {
-    printf("%d, %d", first[0]), first[1];
+    if ((second[0] >= first[0] && second[1] <= first[1]) ||
+        (first[0] >= second[0] && first[1] <= second[1]))
+    {
+        printf("%d                    , %d\n", first[0], first[1]);
+        printf("%d                    , %d\n", second[0], second[1]);
+        return 1;
+    }
+    return 0;
 }
 
 int main()
 {
-    FILE *file = fopen("small.txt", "r");
+    FILE *file = fopen("input.txt", "r");
     if (file == NULL)
         return 0;
     char buffer[250];
+    int somma = 0;
     while (fgets(buffer, sizeof(buffer), file))
     {
         trimwhitespace(buffer);
@@ -77,14 +86,15 @@ int main()
                 split_number(first, numbers_first);
                 split_number(second, numbers_second);
 
-                check(numbers_first, numbers_second);
+                somma += check(numbers_first, numbers_second);
 
-                printf("prima parte %s, seconda parte %s\n", first, second);
+                // printf("prima parte %s, seconda parte %s\n", first, second);
                 free(first); // Libera la memoria allocata
                 free(second);
                 break;
             }
         }
     }
+    printf("somma :%d \n", somma);
     return 0;
 }
