@@ -157,10 +157,9 @@ int calcolo(int lettera)
 }
 
 // funzione per capire le lettere se sono gia state trovate
-int controllo_presenza(char lettera, char lettere[], int len)
+int controllo_presenza(char lettera, char lettere[], int *len)
 {
-    // printf("%s", lettere);
-    for (int y = 0; y < len; y++)
+    for (int y = 0; y < *len; y++)
     {
         if (lettera == lettere[y])
         {
@@ -171,38 +170,35 @@ int controllo_presenza(char lettera, char lettere[], int len)
     return 1;
 }
 
-void ricerca(char w[], char word[], int *count)
+void ricerca(char w[], char word[])
 {
 
     char lettere[100] = {0};
+    int count = 0; // si mette count cosi che non si abbia un numero fisso per il ciclo degli array ma è flessibile
     for (int i = 'A'; i < 'Z' + 1; i++)
     {
         for (int y = 0; y < strlen(word); y++)
         {
-            if ((i == word[y]) && controllo_presenza(word[y], lettere, *count))
+            if ((i == word[y]) && controllo_presenza(word[y], lettere, &count))
             {
-                lettere[*count] = i;
-                w[*count] = i;
-                (*count)++; // si esegue prima ++ e dopo si prende l'address e quindi aumentava l'address e non il valore
+                lettere[count] = i;
+                w[count] = i;
+                count++; // si esegue prima ++ e dopo si prende l'address e quindi aumentava l'address e non il valore
             }
-            else if ((i + 32) == word[y] && controllo_presenza(word[y], lettere, *count))
+            else if ((i + 32) == word[y] && controllo_presenza(word[y], lettere, &count))
             {
-                lettere[*count] = i + 32;
-                printf("%d\n", *count);
-                w[*count] = i + 32;
-                (*count)++;
+                lettere[count] = i + 32;
+                w[count] = i + 32;
+                count++;
             }
         }
     }
-    // printf("array %s\n\n", w);
-    // return w;
 }
 
 void confronto(char w[], char b[])
 {
     for (int i = 0; i < strlen(w); i++)
     {
-        printf("numero %d\n", i);
         int presente = 0;
         for (int y = 0; y < strlen(b); y++)
         {
@@ -215,21 +211,15 @@ void confronto(char w[], char b[])
         {
             w[i] = '0';
         }
-        // printf("array sono wua  %s\n\n", w);
     }
 }
 
 char selezione(char valori[])
 {
-
-    printf("array sono wua  %s\n\n", valori);
     for (int i = 0; i < strlen(valori); i++)
     {
         if (('A' < valori[i] && valori[i] < 'Z' + 1) || ('a' < valori[i] && valori[i] < 'z' + 1))
-        {
-            printf("%d                    jjjfjfj", valori[i]);
             return valori[i];
-        }
     }
 }
 
@@ -241,26 +231,38 @@ int main()
 
     char buffer[250];
     int somma = 0;
-    int count = 0;
     char word[250] = {0};
     int index = 0;
     while (fgets(buffer, sizeof(buffer), file))
     {
         trimwhitespace(buffer);
+        // primo valore si fa la ricerca delle lettere che ci servono 
         if (index % 3 == 0)
         {
             char lettera = selezione(word);
             somma += calcolo(lettera);
             memset(word, 0, sizeof(word)); // Resetta word
-            count = 0;
-            ricerca(word, buffer, &count);
+            ricerca(word, buffer);
         }
         else
         {
+            // si confronta le lettere con l'attuale buffer e si rimuovono quelle non necessarie 
             confronto(word, buffer);
+
+            /*
+            lettere di buffer 1 
+            si confrontano le lettere del buffer 1 e del due e si tengono solo quelle che hanno in comune 
+            si confrontano le lettere del buffer 2 che sono rimaste nel passaggio precedente con quelle del buffer 3 
+            */
         }
         index++;
     }
     printf("%d\n", somma);
     return 0;
 }
+
+
+/*
+questo procedimento ha un bug e bisogna aggiungere una riga a caso alla fine 
+
+*/
