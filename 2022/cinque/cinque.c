@@ -4,6 +4,22 @@
 #include <stdlib.h>
 #include <stdbool.h>
 
+void removeChar(char *string, char charToRemoveLeft, char charToRemoveRight)
+{
+
+    int i, j = 0;
+    int len = strlen(string);
+
+    for (i = 0; i < len; i++)
+    {
+        if (string[i] != charToRemoveLeft && string[i] != charToRemoveRight)
+        {
+            string[j++] = string[i];
+        }
+    }
+    string[j] = '\0';
+}
+
 char *trimwhitespace(char *str)
 {
     char *end;
@@ -25,6 +41,13 @@ char *trimwhitespace(char *str)
 
     return str;
 }
+
+void section(char b[], char one[], char two[], char three[])
+{
+
+    printf("mosse: %s\n", one);
+}
+
 int main()
 {
 
@@ -33,10 +56,11 @@ int main()
         return 0;
 
     char buffer[250];
-    char arra1[6];
-    char arra2[6];
-    char arra3[6];
+    char array1[6];
+    char array2[6];
+    char array3[6];
     bool mosse = false;
+
     while (fgets(buffer, sizeof(buffer), file))
     {
         trimwhitespace(buffer);
@@ -48,12 +72,13 @@ int main()
 
         if (mosse)
         {
-
             printf("mosse: %s\n", buffer);
         }
         else
         {
-            printf("stack: %s\n", buffer);
+            // removeChar(buffer, '[', ']');
+            section(buffer, array1, array2, array3);
+            // printf("stack: %c\n", buffer[1]);
         }
     }
 
