@@ -5,21 +5,6 @@
 #include <stdbool.h>
 
 #define MAX_LENGTH 6
-void removeChar(char *string, char charToRemoveLeft, char charToRemoveRight)
-{
-
-    int i, j = 0;
-    int len = strlen(string);
-
-    for (i = 0; i < len; i++)
-    {
-        if (string[i] != charToRemoveLeft && string[i] != charToRemoveRight)
-        {
-            string[j++] = string[i];
-        }
-    }
-    string[j] = '\0';
-}
 
 char *trimwhitespace(char *str)
 {
@@ -43,29 +28,6 @@ char *trimwhitespace(char *str)
     return str;
 }
 
-// void section(char b[], char one[], char two[], char three[])
-// {
-//     while (b[i] != '\0')
-//     {
-//         if (b[i] != 13 && b[i] != '[' && b[i] != ']' && b[i] != 32)
-//         {
-//             if (i % 3 == 1) // Assegna a "one" (ad esempio ogni 3° carattere)
-//             {
-//                 one[idx_one++] = b[i];
-//             }
-//             else if (i % 3 == 2) // Assegna a "two"
-//             {
-//                 two[idx_two++] = b[i];
-//             }
-//             else // Assegna a "three"
-//             {
-//                 three[idx_three++] = b[i];
-//             }
-//         }
-//         i++;
-//     }
-// }
-
 int main()
 {
 
@@ -82,7 +44,7 @@ int main()
     while (fgets(buffer, sizeof(buffer), file))
     {
 
-        if (buffer[0] == '1' || buffer[0] == 13)
+        if (buffer[0] == 13)
         {
             mosse = true;
             continue;
@@ -113,14 +75,26 @@ int main()
         }
         else
         {
+            char *token;
+            token = strtok(buffer, " ");
+            char arrayMove[4] = {0};
 
-            printf("mosse: %s\n", buffer);
+            int index = 0;
+            int i = 0;
+            while (token != NULL)
+            {
+                if (i % 2 == 1)
+                {
+                    arrayMove[index] = *token;
+                    index++;
+                }
+                i++;
+                token = strtok(NULL, " ");
+            }
+            arrayMove[index] = '\0';
+            printf("mosse: %s\n", arrayMove);
         }
     }
-
-    array1[idx_one] = '\0';
-    array2[idx_two] = '\0';
-    array3[idx_three] = '\0';
     printf("stack: %s\n", array1);
     printf("stack: %s\n", array2);
     printf("stack: %s\n", array3);
