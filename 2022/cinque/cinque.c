@@ -57,8 +57,8 @@ void move(char From[], char Too[], int arrayMove[])
         indexToo++;
     }
 
-    Too[indexToo] = '\0';       
-    // From[indexFrom + 1] = '\0'; 
+    Too[indexToo] = '\0';
+    // From[indexFrom + 1] = '\0';
 }
 
 int main()
@@ -69,8 +69,9 @@ int main()
         return 0;
 
     char buffer[250];
-    char array[MAX_LENGTH][MAX_LENGTH_STACK];
+    char array[MAX_LENGTH][MAX_LENGTH_STACK]; // array con dentro gli stack
     bool mosse, reverse = false;
+    // indici per gli array
     int idx_one = 0, idx_two = 0, idx_three = 0, idx_four = 0, idx_five = 0, idx_six = 0, idx_seven = 0, idx_eight = 0, idx_nine = 0;
     while (fgets(buffer, sizeof(buffer), file))
     {
@@ -87,7 +88,7 @@ int main()
             while (buffer[i] != '\0')
             {
 
-                if (buffer[i] != 13 && buffer[i] != '[' && buffer[i] != ']' && buffer[i] != 32 && buffer[i] != '1' && buffer[i] != '2' && buffer[i] != '3')
+                if (buffer[i] != 13 && buffer[i] != '[' && buffer[i] != ']' && buffer[i] != 32 && (buffer[i] < '1' || buffer[i] > '9'))
                 {
                     if (i == 1) // Assegna a "one"
                         array[0][idx_one++] = buffer[i];
@@ -110,6 +111,7 @@ int main()
                 }
                 i++;
             }
+
             array[0][idx_one] = '\0';
             array[1][idx_two] = '\0';
             array[2][idx_three] = '\0';
@@ -122,7 +124,7 @@ int main()
         }
         else
         {
-            if (!reverse)
+            if (!reverse) // farlo fare solo una volta
             {
                 for (int i = 0; i < MAX_LENGTH; i++)
                 {
@@ -132,7 +134,7 @@ int main()
             reverse = true;
             char *token;
             token = strtok(buffer, " ");
-            int arrayMove[4] = {0};
+            int arrayMove[4] = {0}; // composto sempre da 3 mosse
 
             int index = 0;
             int i = 0;
@@ -146,6 +148,10 @@ int main()
                 token = strtok(NULL, " ");
             }
             arrayMove[index] = '\0';
+            /*
+             si muove array e lo si selezione grazie agli elementi che sono all'interno
+             di arrayMove che comprende quanti elementi spostare da chi e dove metterli
+            */
             move(array[arrayMove[1] - 1], array[arrayMove[2] - 1], arrayMove);
             for (int i = 0; i < MAX_LENGTH - 1; i++)
             {
