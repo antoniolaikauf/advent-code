@@ -29,13 +29,36 @@ char *trimwhitespace(char *str)
     return str;
 }
 
-void move(char one[], char two[], int arrayMove[])
+void reverseArray(char arr[], int length)
 {
+    int start = 0;
+    int end = length - 1;
+    char temp;
+
+    while (start < end)
+    {
+        temp = arr[start];
+        arr[start] = arr[end];
+        arr[end] = temp;
+        start++;
+        end--;
+    }
+    printf("stack: %s\n", arr);
+}
+
+void move(char From[], char Too[], int arrayMove[])
+{
+    int indexFrom = 0;
+    int indexToo = strlen(Too);
     for (int i = 0; i < arrayMove[0]; i++)
     {
-        printf("%s  ", one);
-        printf("%s  ", two);
+        Too[indexToo] = From[indexFrom];
+        From[indexFrom] = ' ';
+        indexFrom++;
+        indexToo++;
     }
+    printf("Tooo %s\n", Too);
+    printf("frommmmm   %s\n", From);
 }
 
 int main()
@@ -47,7 +70,7 @@ int main()
 
     char buffer[250];
     char array[MAX_LENGTH][MAX_LENGTH_STACK];
-    bool mosse = false;
+    bool mosse, reverse = false;
     int idx_one = 0, idx_two = 0, idx_three = 0;
     while (fgets(buffer, sizeof(buffer), file))
     {
@@ -83,6 +106,15 @@ int main()
         }
         else
         {
+            if (!reverse)
+            {
+                for (int i = 0; i < MAX_LENGTH; i++)
+                {
+                    reverseArray(array[i], strlen(array[i]));
+                    // printf("stack: %s\n", );
+                }
+            }
+            reverse = true;
             char *token;
             token = strtok(buffer, " ");
             int arrayMove[4] = {0};
@@ -100,14 +132,14 @@ int main()
                 token = strtok(NULL, " ");
             }
             arrayMove[index] = '\0';
-            move(array[arrayMove[1] - 1], array[arrayMove[2] - 1] , arrayMove);
+            move(array[arrayMove[1] - 1], array[arrayMove[2] - 1], arrayMove);
         }
     }
     // printf("stack: %s\n", array[0]);
-    for (int i = 0; i < 3; i++)
-    {
-        // printf("stack: %s\n", array[i]);
-    }
+    // for (int i = 0; i < 3; i++)
+    // {
+    //     printf("stack: %s\n", array[i]);
+    // }
 
     return 0;
 }
