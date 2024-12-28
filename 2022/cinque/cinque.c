@@ -4,8 +4,8 @@
 #include <stdlib.h>
 #include <stdbool.h>
 
-#define MAX_LENGTH_STACK 6
-#define MAX_LENGTH 4
+#define MAX_LENGTH_STACK 56
+#define MAX_LENGTH 10
 
 char *trimwhitespace(char *str)
 {
@@ -43,35 +43,35 @@ void reverseArray(char arr[], int length)
         start++;
         end--;
     }
-    printf("stack: %s\n", arr);
 }
 
 void move(char From[], char Too[], int arrayMove[])
 {
-    int indexFrom = 0;
+    int indexFrom = strlen(From) - 1;
     int indexToo = strlen(Too);
     for (int i = 0; i < arrayMove[0]; i++)
     {
         Too[indexToo] = From[indexFrom];
-        From[indexFrom] = ' ';
-        indexFrom++;
+        From[indexFrom] = '\0';
+        indexFrom--;
         indexToo++;
     }
-    printf("Tooo %s\n", Too);
-    printf("frommmmm   %s\n", From);
+
+    Too[indexToo] = '\0';       
+    // From[indexFrom + 1] = '\0'; 
 }
 
 int main()
 {
 
-    FILE *file = fopen("small.txt", "r");
+    FILE *file = fopen("input.txt", "r");
     if (file == NULL)
         return 0;
 
     char buffer[250];
     char array[MAX_LENGTH][MAX_LENGTH_STACK];
     bool mosse, reverse = false;
-    int idx_one = 0, idx_two = 0, idx_three = 0;
+    int idx_one = 0, idx_two = 0, idx_three = 0, idx_four = 0, idx_five = 0, idx_six = 0, idx_seven = 0, idx_eight = 0, idx_nine = 0;
     while (fgets(buffer, sizeof(buffer), file))
     {
 
@@ -86,23 +86,39 @@ int main()
             int i = 0;
             while (buffer[i] != '\0')
             {
+
                 if (buffer[i] != 13 && buffer[i] != '[' && buffer[i] != ']' && buffer[i] != 32 && buffer[i] != '1' && buffer[i] != '2' && buffer[i] != '3')
                 {
                     if (i == 1) // Assegna a "one"
-                    {
                         array[0][idx_one++] = buffer[i];
-                    }
                     else if (i == 5) // Assegna a "two"
-                    {
                         array[1][idx_two++] = buffer[i];
-                    }
                     else if (i == 9) // Assegna a "three"
-                    {
                         array[2][idx_three++] = buffer[i];
-                    }
+                    else if (i == 13) // Assegna a "three"
+                        array[3][idx_four++] = buffer[i];
+                    else if (i == 17) // Assegna a "three"
+                        array[4][idx_five++] = buffer[i];
+                    else if (i == 21) // Assegna a "three"
+                        array[5][idx_six++] = buffer[i];
+                    else if (i == 25) // Assegna a "three"
+                        array[6][idx_seven++] = buffer[i];
+                    else if (i == 29) // Assegna a "three"
+                        array[7][idx_eight++] = buffer[i];
+                    else if (i == 33) // Assegna a "three"
+                        array[8][idx_nine++] = buffer[i];
                 }
                 i++;
             }
+            array[0][idx_one] = '\0';
+            array[1][idx_two] = '\0';
+            array[2][idx_three] = '\0';
+            array[3][idx_four] = '\0';
+            array[4][idx_five] = '\0';
+            array[5][idx_six] = '\0';
+            array[6][idx_seven] = '\0';
+            array[7][idx_eight] = '\0';
+            array[8][idx_nine] = '\0';
         }
         else
         {
@@ -111,7 +127,6 @@ int main()
                 for (int i = 0; i < MAX_LENGTH; i++)
                 {
                     reverseArray(array[i], strlen(array[i]));
-                    // printf("stack: %s\n", );
                 }
             }
             reverse = true;
@@ -125,7 +140,6 @@ int main()
             {
                 if (i % 2 == 1)
                 {
-                    // printf("stack: %c\n", token[1]);
                     arrayMove[index++] = atoi(token);
                 }
                 i++;
@@ -133,13 +147,21 @@ int main()
             }
             arrayMove[index] = '\0';
             move(array[arrayMove[1] - 1], array[arrayMove[2] - 1], arrayMove);
+            for (int i = 0; i < MAX_LENGTH - 1; i++)
+            {
+                printf("stack: %s\n", array[i]);
+            }
+            printf("\n\n");
         }
     }
-    // printf("stack: %s\n", array[0]);
-    // for (int i = 0; i < 3; i++)
-    // {
-    //     printf("stack: %s\n", array[i]);
-    // }
+
+    char result[MAX_LENGTH];
+    for (int i = 0; i < MAX_LENGTH; i++)
+    {
+        if (array[i][strlen(array[i]) - 1] != '\0')
+            result[i] = array[i][strlen(array[i]) - 1];
+    }
+    printf("stack: %s\n", result);
 
     return 0;
 }
