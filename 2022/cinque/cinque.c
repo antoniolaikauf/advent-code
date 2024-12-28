@@ -4,7 +4,8 @@
 #include <stdlib.h>
 #include <stdbool.h>
 
-#define MAX_LENGTH 6
+#define MAX_LENGTH_STACK 6
+#define MAX_LENGTH 4
 
 char *trimwhitespace(char *str)
 {
@@ -28,6 +29,15 @@ char *trimwhitespace(char *str)
     return str;
 }
 
+void move(char one[], char two[], char m[])
+{
+
+    // for (int i = 0; i < m[0]; i++)
+    // {
+    // }
+    printf("mosse: %s\n", two);
+}
+
 int main()
 {
 
@@ -36,11 +46,9 @@ int main()
         return 0;
 
     char buffer[250];
-    char array1[MAX_LENGTH];
-    char array2[MAX_LENGTH];
-    char array3[MAX_LENGTH];
+    char array[MAX_LENGTH][MAX_LENGTH_STACK];
     bool mosse = false;
-    int idx_one = 0, idx_two = 0, idx_three = 0;
+    int idx_one = 0, idx_two = 0, idx_three = 0, indexArray = 0;
     while (fgets(buffer, sizeof(buffer), file))
     {
 
@@ -59,19 +67,20 @@ int main()
                 {
                     if (i == 1) // Assegna a "one"
                     {
-                        array1[idx_one++] = buffer[i];
+                        array[0][idx_one++] = buffer[i];
                     }
                     else if (i == 5) // Assegna a "two"
                     {
-                        array2[idx_two++] = buffer[i];
+                        array[1][idx_two++] = buffer[i];
                     }
                     else if (i == 9) // Assegna a "three"
                     {
-                        array3[idx_three++] = buffer[i];
+                        array[2][idx_three++] = buffer[i];
                     }
                 }
                 i++;
             }
+            // indexArray++;
         }
         else
         {
@@ -92,11 +101,18 @@ int main()
                 token = strtok(NULL, " ");
             }
             arrayMove[index] = '\0';
-            printf("mosse: %s\n", arrayMove);
+            // printf("mosse: %d\n", arrayMove[1] - '0');
+            int stack1 = (arrayMove[1] - '0') - 1;
+            int stack2 = (arrayMove[2] - '0') - 1;
+
+            move(array[stack1], array[stack2], arrayMove);
         }
     }
-    printf("stack: %s\n", array1);
-    printf("stack: %s\n", array2);
-    printf("stack: %s\n", array3);
+    // printf("stack: %s\n", array[0]);
+    for (int i = 0; i < 3; i++)
+    {
+        // printf("stack: %s\n", array[i]);
+    }
+
     return 0;
 }
