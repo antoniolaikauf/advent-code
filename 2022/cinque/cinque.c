@@ -4,6 +4,7 @@
 #include <stdlib.h>
 #include <stdbool.h>
 
+#define MAX_LENGTH 6
 void removeChar(char *string, char charToRemoveLeft, char charToRemoveRight)
 {
 
@@ -73,9 +74,9 @@ int main()
         return 0;
 
     char buffer[250];
-    char array1[50];
-    char array2[50];
-    char array3[50];
+    char array1[MAX_LENGTH];
+    char array2[MAX_LENGTH];
+    char array3[MAX_LENGTH];
     bool mosse = false;
     int idx_one = 0, idx_two = 0, idx_three = 0;
     while (fgets(buffer, sizeof(buffer), file))
@@ -86,26 +87,23 @@ int main()
             mosse = true;
             continue;
         }
-        if (mosse)
+        if (!mosse)
         {
-            printf("mosse: %s\n", buffer);
-        }
-        else
-        {
+
             int i = 0;
             while (buffer[i] != '\0')
             {
                 if (buffer[i] != 13 && buffer[i] != '[' && buffer[i] != ']' && buffer[i] != 32 && buffer[i] != '1' && buffer[i] != '2' && buffer[i] != '3')
                 {
-                    if (i % 3 == 1) // Assegna a "one"
+                    if (i == 1) // Assegna a "one"
                     {
                         array1[idx_one++] = buffer[i];
                     }
-                    else if (i % 3 == 2) // Assegna a "two"
+                    else if (i == 5) // Assegna a "two"
                     {
                         array2[idx_two++] = buffer[i];
                     }
-                    else // Assegna a "three"
+                    else if (i == 9) // Assegna a "three"
                     {
                         array3[idx_three++] = buffer[i];
                     }
@@ -113,8 +111,16 @@ int main()
                 i++;
             }
         }
+        else
+        {
+
+            printf("mosse: %s\n", buffer);
+        }
     }
 
+    array1[idx_one] = '\0';
+    array2[idx_two] = '\0';
+    array3[idx_three] = '\0';
     printf("stack: %s\n", array1);
     printf("stack: %s\n", array2);
     printf("stack: %s\n", array3);
