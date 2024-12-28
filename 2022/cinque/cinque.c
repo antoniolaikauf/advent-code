@@ -29,13 +29,13 @@ char *trimwhitespace(char *str)
     return str;
 }
 
-void move(char one[], char two[], char m[])
+void move(char one[], char two[], int arrayMove[])
 {
-
-    // for (int i = 0; i < m[0]; i++)
-    // {
-    // }
-    printf("mosse: %s\n", two);
+    for (int i = 0; i < arrayMove[0]; i++)
+    {
+        printf("%s  ", one);
+        printf("%s  ", two);
+    }
 }
 
 int main()
@@ -48,7 +48,7 @@ int main()
     char buffer[250];
     char array[MAX_LENGTH][MAX_LENGTH_STACK];
     bool mosse = false;
-    int idx_one = 0, idx_two = 0, idx_three = 0, indexArray = 0;
+    int idx_one = 0, idx_two = 0, idx_three = 0;
     while (fgets(buffer, sizeof(buffer), file))
     {
 
@@ -80,13 +80,12 @@ int main()
                 }
                 i++;
             }
-            // indexArray++;
         }
         else
         {
             char *token;
             token = strtok(buffer, " ");
-            char arrayMove[4] = {0};
+            int arrayMove[4] = {0};
 
             int index = 0;
             int i = 0;
@@ -94,18 +93,14 @@ int main()
             {
                 if (i % 2 == 1)
                 {
-                    arrayMove[index] = *token;
-                    index++;
+                    // printf("stack: %c\n", token[1]);
+                    arrayMove[index++] = atoi(token);
                 }
                 i++;
                 token = strtok(NULL, " ");
             }
             arrayMove[index] = '\0';
-            // printf("mosse: %d\n", arrayMove[1] - '0');
-            int stack1 = (arrayMove[1] - '0') - 1;
-            int stack2 = (arrayMove[2] - '0') - 1;
-
-            move(array[stack1], array[stack2], arrayMove);
+            move(array[arrayMove[1] - 1], array[arrayMove[2] - 1] , arrayMove);
         }
     }
     // printf("stack: %s\n", array[0]);
