@@ -3,6 +3,9 @@
 #include <ctype.h>
 #include <stdlib.h>
 #include <stdbool.h>
+#include <limits.h>
+
+#define length 1000
 
 char *trimwhitespace(char *str)
 {
@@ -26,38 +29,74 @@ char *trimwhitespace(char *str)
     return str;
 }
 
+int check(int left[], int right[], int len)
+{
+    // inizializzazione primi numeri
+    int leftLow = left[0];
+    int rightLow = right[0];
+    int indexLeft = 0;
+    int indexRight = 0;
+
+    // controllo per numero più piccolo
+    for (int i = 1; i < len; i++)
+    {
+        if (leftLow > left[i])
+        {
+            leftLow = left[i];
+            indexLeft = i;
+        }
+
+        if (rightLow > right[i])
+        {
+            rightLow = right[i];
+            indexRight = i;
+        }
+    }
+    // impostazione dell'indice del numero più piccolo al massimo cosi che non si prenda più
+    left[indexLeft] = INT_MAX;
+    right[indexRight] = INT_MAX;
+
+    printf("numero più basso : %i altro numero più basso %i\n", rightLow, leftLow);
+    return abs(rightLow - leftLow);
+}
+
 int main()
 {
 
-    FILE *file = fopen("small.txt", "r");
+    FILE *file = fopen("input.txt", "r");
 
     if (file == NULL)
         return 0;
 
     char buffer[250];
 
-    char left[400];
-    char right[400];
+    int left[length];
+    int right[length];
     int index = 0;
+    int count = 0;
 
     while (fgets(buffer, sizeof(buffer), file))
     {
         char *numLeft;
         char *numRight;
 
-        numLeft = strtok(buffer, "  ");
-        numRight = strtok(NULL, "");
+        numLeft = strtok(buffer, " ");
+        numRight = strtok(NULL, " ");
 
-        left[index] = *numLeft;
-        right[index] = *numRight;
+        left[index] = atoi(numLeft);
+        right[index] = atoi(numRight);
+
+        printf("numero a sinistra: %i\n", left[index]);
+        printf("numero a destra: %i\n", right[index]);
+
         index++;
-
-        printf("numero a sinistra: %s\n", numLeft);
-        printf("numero a destra: %s\n", numRight);
     }
 
-    left[index] = '\0';
-    right[index] = '\0';
+    for (int i = 0; i < index; i++)
+    {
+        count += check(left, right, index);
+        printf("valore %i\n", count);
+    }
 
     return 0;
 }
