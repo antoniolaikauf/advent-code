@@ -1,75 +1,71 @@
-// #include <stdio.h>
-// #include <string.h>
-// #include <stdbool.h>
-// #include <stdlib.h>
+#include <stdio.h>
+#include <string.h>
+#include <stdbool.h>
+#include <stdlib.h>
 
-// int main()
-// {
+int main()
+{
 
-//     FILE *file = fopen("small.txt", "r");
-//     char buffer[250];
-//     int output = 0;
+    FILE *file = fopen("small.txt", "r");
+    char buffer[250];
+    int output = 0;
 
-//     while (fgets(buffer, sizeof(buffer), file))
-//     {
-//         char *number;
-//         number = strtok(buffer, " ");
-//         int len = 0;
-//         int num[15];
-//         // poplazione array con dentro numeri
-//         while (number != NULL)
-//         {
+    while (fgets(buffer, sizeof(buffer), file))
+    {
+        char *number;
+        number = strtok(buffer, " ");
+        int len = 0;
+        int num[15];
+        // poplazione array con dentro numeri
+        while (number != NULL)
+        {
 
-//             if (number != NULL)
-//                 num[len] = atoi(number);
-//             number = strtok(NULL, " ");
-//             len++;
-//         }
+            if (number != NULL)
+                num[len] = atoi(number);
+            number = strtok(NULL, " ");
+            len++;
+        }
 
-//         num[len] = '\0';
+        num[len] = '\0';
 
-//         // valutazione del primo elemento
-//         int valueStrat = num[0] - num[1];
-//         bool checkstart = true;
-//         if (valueStrat <= 0)
-//             checkstart = false;
+        // valutazione del primo elemento
+        int valueStrat = num[0] - num[1];
+        bool checkstart = true;
+        if (valueStrat <= 0)
+            checkstart = false;
 
-//         int count = 0;
+        int count = 0;
 
-//         for (int i = 0; i < (len - 1); i++)
-//         {
-//             bool check = true;
-//             int value = num[i] - num[i + 1];
+        for (int i = 0; i < (len - 1); i++)
+        {
+            bool check = true;
+            int value = num[i] - num[i + 1];
 
-//             if (value <= 0)
-//             {
-//                 check = false;
-//             }
-//             // controllo condizioni se sta nel range e se riepstta il primo pattern
-//             if (((1 <= value && value <= 3) || (-1 >= value && value >= -3)) && (check == checkstart))
-//             {
-//                 count++;
-//             }
-//             else
-//                 break;
-//         }
+            if (value <= 0)
+            {
+                check = false;
+            }
+            // controllo condizioni se sta nel range e se riepstta il primo pattern
+            if (((1 <= value && value <= 3) || (-1 >= value && value >= -3)) && (check == checkstart))
+            {
+                count++;
+            }
+            else
+                break;
+        }
 
-//         if (count == len - 1)
-//             output++;
-//     }
-//     printf(" valore è %i", output);
-//     return 0;
-// }
+        if (count == len - 1)
+            output++;
+    }
+    printf(" valore è %i", output);
+    return 0;
+}
 
 //--------------------------------
 // SECONDA PARTE
 //--------------------------------
 
-
 // MIO CODICE SBAGLIATO !!!!!!!!!!!!!!!!!!
-
-
-
 
 // #include <stdio.h>
 // #include <string.h>
@@ -209,65 +205,81 @@
 //     return 0;
 // }
 
-// preso da un utente e tradotto 
+// preso da un utente e tradotto
 
 #include <stdio.h>
 #include <string.h>
 #include <stdbool.h>
 #include <stdlib.h>
 
-bool checkMonotonic(int numeri[], int length, int skipIndex) {
+bool checkMonotonic(int numeri[], int length, int skipIndex)
+{
     bool increasing = true, decreasing = true;
-    
+
+    // tramite questo salta il primo turno cosi che possa fare numero - numero precedente
     int lastIndex = -1;
-    for (int i = 0; i < length; i++) {
-        // skippa ogni elemento 
-        if (i == skipIndex) continue; 
-        
-        if (lastIndex != -1) {
+    for (int i = 0; i < length; i++)
+    {
+        // indice da skippare
+        if (i == skipIndex)
+            continue;
+
+        if (lastIndex != -1)
+        {
             int diff = numeri[i] - numeri[lastIndex];
-            
-            
-            if (diff == 0 || diff < -3 || diff > 3) 
+            // condizioni se una differenza rompe le condizioni
+            if (diff == 0 || diff < -3 || diff > 3)
                 return false;
-                
-            if (diff > 0) decreasing = false;
-            if (diff < 0) increasing = false;
-            
-            if (!increasing && !decreasing) 
+
+            if (diff > 0)
+                decreasing = false;
+            if (diff < 0)
+                increasing = false;
+            // metodo più semplice se è decrescente o cresciente essendo che se tutte due sono diventate false allora vuol
+            // dire che la sotteazione è cambiata e quindi diventa nulla
+            if (!increasing && !decreasing)
                 return false;
         }
-        
+
         lastIndex = i;
     }
-    
+ // ritornerà true quando lo skipindex corrisponde al numero che darebbe errore e inoltre se ci sono due errori non 
+ // è un problema essendo che si passa solo un indice e l'indice può essere solo un valore e quindi impossibile che 
+ // sia tutte e due gli errori, quindi il ciclo for sopra lo prenderebbe 
     return true;
 }
 
-bool checkValue(int numeri[], int length) {
-     // qua controlla se la sequenza e ok di base 
-    if (checkMonotonic(numeri, length, -1)) return true;
-    // si prova ad eliminare ogni elemento 
-    for (int i = 0; i < length; i++) {
-        if (checkMonotonic(numeri, length, i)) return true;
+bool checkValue(int numeri[], int length)
+{
+    // qua controlla se la sequenza e ok di base
+    if (checkMonotonic(numeri, length, -1))
+        return true;
+    // si prova ad eliminare ogni elemento
+    for (int i = 0; i < length; i++)
+    {
+        if (checkMonotonic(numeri, length, i))
+            return true;
     }
 
-    return false; 
+    return false;
 }
 
-int main() {
+int main()
+{
     FILE *file = fopen("input.txt", "r");
     char buffer[250];
     int output = 0;
 
-    while (fgets(buffer, sizeof(buffer), file)) {
+    while (fgets(buffer, sizeof(buffer), file))
+    {
         char *number;
         number = strtok(buffer, " ");
         int len = 0;
         int num[15];
 
         // Popolazione array con dentro numeri
-        while (number != NULL) {
+        while (number != NULL)
+        {
             num[len] = atoi(number);
             number = strtok(NULL, " ");
             len++;
@@ -275,7 +287,8 @@ int main() {
 
         num[len] = '\0';
 
-        if (checkValue(num, len)) {
+        if (checkValue(num, len))
+        {
             output++;
         }
     }
