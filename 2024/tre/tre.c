@@ -185,7 +185,8 @@ int main()
         bool checkMul = false;
         while (buffer[i] != '\0')
         {
-            // printf("indietro %c mezzo %c avanti %c\n", buffer[i - 1], buffer[i], buffer[i + 1]);
+            // printf("sono d %c sono o %c sono n %c sono ' %c sono t %c sono ( %c sono ) %c\n", buffer[i - 1], buffer[i], buffer[i + 1], buffer[i + 2], buffer[i + 3], buffer[i + 4], buffer[i + 5]);
+
             // controllo se la frase è mul  don't()
             if (buffer[i - 1] == 'd' && buffer[i] == 'o' && buffer[i + 1] == '(' && buffer[i + 2] == ')')
             {
@@ -195,7 +196,6 @@ int main()
                 int j = i;
                 while (buffer[j] != '\0')
                 {
-                    // printf("indietro %c mezzo %c avanti %c\n", buffer[i - 1], buffer[i], buffer[i + 1]);
                     if (buffer[j - 1] == 'd' && buffer[j] == 'o' && buffer[j + 1] == 'n' && buffer[j + 2] == '\'' && buffer[j + 3] == 't' && buffer[j + 4] == '(' && buffer[j + 5] == ')')
                     {
                         printf("sono fake\n\n");
@@ -243,3 +243,5 @@ int main()
     fclose(file);
     return 0;
 }
+
+// 93465710 risultato 
