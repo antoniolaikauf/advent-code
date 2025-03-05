@@ -108,6 +108,7 @@
 #include <stdlib.h>
 #include <ctype.h>
 
+// funzione per calcolare la moltiplicazione se c'è
 int checkValue(int index, char value[])
 {
     bool checkCorrectSequence = false;
@@ -185,25 +186,23 @@ int main()
         bool checkMul = false;
         while (buffer[i] != '\0')
         {
-            // printf("sono d %c sono o %c sono n %c sono ' %c sono t %c sono ( %c sono ) %c\n", buffer[i - 1], buffer[i], buffer[i + 1], buffer[i + 2], buffer[i + 3], buffer[i + 4], buffer[i + 5]);
-
-            // controllo se la frase è mul  don't()
-            if (buffer[i - 1] == 'd' && buffer[i] == 'o' && buffer[i + 1] == '(' && buffer[i + 2] == ')')
+            // controllo è presente do
+            if (strncmp(&buffer[i - 1], "do()", 4) == 0)
             {
                 checkMul = false;
 
-                printf("sono dentro con il doooo\n");
                 int j = i;
+                // ciclo per trovare mul o don't essendo che potrebbe esserci
                 while (buffer[j] != '\0')
                 {
-                    if (buffer[j - 1] == 'd' && buffer[j] == 'o' && buffer[j + 1] == 'n' && buffer[j + 2] == '\'' && buffer[j + 3] == 't' && buffer[j + 4] == '(' && buffer[j + 5] == ')')
+                    if (strncmp(&buffer[j - 1], "don't()", 7) == 0)
                     {
                         printf("sono fake\n\n");
                         checkMul = true;
                         break;
                     }
                     // controllo se la frase è mul
-                    else if ((buffer[j - 1] == 'm') && (buffer[j] == 'u') && (buffer[j + 1] == 'l'))
+                    else if (strncmp(&buffer[j - 1], "mul", 3) == 0)
                     {
                         /*
                             si inizia dal numero perchè se tanto non rispetta il pattern mul()
@@ -215,19 +214,20 @@ int main()
                     }
                     j++;
                 }
-                i = j;
+                i = j; // aggiorno indice per non rifare gli stessi numeri
             }
-            else if (buffer[i - 1] == 'd' && buffer[i] == 'o' && buffer[i + 1] == 'n' && buffer[i + 2] == '\'' && buffer[i + 3] == 't' && buffer[i + 4] == '(' && buffer[i + 5] == ')')
+            // scarto perchè è don't
+            else if (strncmp(&buffer[i - 1], "don't()", 7) == 0)
             {
+                // con checkmul blocco tutti i mul fino a quando non trovo un do()
                 checkMul = true;
                 printf("check %i\n", checkMul);
                 printf("sono dentro con il doooon't\n");
             }
-            else if ((buffer[i - 1] == 'm') && (buffer[i] == 'u') && (buffer[i + 1] == 'l') && (checkMul == false))
+            else if ((strncmp(&buffer[i - 1], "mul", 3) == 0) && (checkMul == false))
             {
                 printf("check %i\n", checkMul);
                 /*
-
                     si inizia dal numero perchè se tanto non rispetta il pattern mul()
                     allora non è da contare questa sequenza
                 */
@@ -244,4 +244,4 @@ int main()
     return 0;
 }
 
-// 93465710 risultato 
+// 93465710 risultato
