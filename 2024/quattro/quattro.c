@@ -49,52 +49,109 @@ int main()
     FILE *file = fopen("small.txt", "r");
 
     char buffer[250];
-    char orizontal[250][5] = {0};
+    char vertical[250][5] = {0};
+    char diagonalTLBR[250][5] = {0};
+    char diagonalTRBl[250][5] = {0};
     int verticalIndex = 0;
     int indexVertical = 0;
+    int indexLast = 0;
+    int diagonalIndexTLBR = 0;
+    int diagonalIndexTRBl = 0;
+    int output = 0;
+
     while (fgets(buffer, sizeof(buffer), file))
     {
-        // printf("%c\n", buffer[0]);
         trimwhitespace(buffer);
 
         int basicIndex = 0;
 
+        if (vertical[0][0] == false)
+        {
+            int i = 0;
+            while (buffer[i] != '\0')
+            {
+                indexLast++;
+                i++;
+            }
+            indexLast;
+            diagonalIndexTRBl = indexLast;
+        }
+
         while (buffer[basicIndex] != '\0')
         {
 
-            scaleArray(orizontal[basicIndex], buffer[basicIndex], verticalIndex);
+            if (basicIndex < (indexLast - 3))
+            {
+                if ((diagonalIndexTRBl - basicIndex) >= 0)
+                {
+                    // printf("qua diagonale        %c e qua valore in %i \n", buffer[(diagonalIndexTRBl - basicIndex)], (diagonalIndexTRBl - basicIndex));
+                    scaleArray(diagonalTRBl[basicIndex], buffer[(diagonalIndexTRBl - basicIndex)], verticalIndex);
+                }
+                if ((diagonalIndexTLBR + basicIndex) <= indexLast)
+                {
+                    // printf("qua diagonale        %c e qua valore in %i \n", buffer[(diagonalIndexTLBR + basicIndex)], diagonalIndexTLBR);
+                    scaleArray(diagonalTLBR[basicIndex], buffer[(diagonalIndexTLBR + basicIndex)], verticalIndex);
+                }
+            }
+
+            scaleArray(vertical[basicIndex], buffer[basicIndex], verticalIndex);
 
             if (strncmp(&buffer[basicIndex], "XMAS", 4) == 0)
             {
-                printf("trovata XMAS\n");
+                output++;
+                printf("trovata oriz XMAS\n");
             }
             else if (strncmp(&buffer[basicIndex], "SAMX", 4) == 0)
             {
-                printf("trovata SAMX\n");
+                output++;
+                printf("trovata oriz SAMX\n");
             }
-            else if (strncmp(&orizontal[basicIndex][0], "XMAS", 4) == 0)
+            else if (strncmp(&vertical[basicIndex][0], "XMAS", 4) == 0)
             {
-                printf("%s\n\n", orizontal[basicIndex]);
-                printf("trovata XMAS in orizzontale\n");
+                output++;
+                printf("trovata XMAS in verticale %s\n", vertical[basicIndex]);
             }
-            else if (strncmp(&orizontal[basicIndex][0], "SAMX", 4) == 0)
+            else if (strncmp(&vertical[basicIndex][0], "SAMX", 4) == 0)
             {
-                printf("%s\n\n", orizontal[basicIndex]);
-                printf("trovata XMAS in orizzontale indietro\n");
+                output++;
+                printf("trovata SAMX in verticale %s\n", vertical[basicIndex]);
+            }
+            else if (strncmp(&diagonalTLBR[basicIndex][0], "XMAS", 4) == 0)
+            {
+                output++;
+                printf("trovata XMAS in diagonale top LEFT bottom RIGHT %s\n", diagonalTLBR[basicIndex]);
+            }
+            else if (strncmp(&diagonalTLBR[basicIndex][0], "SAMX", 4) == 0)
+            {
+                output++;
+                printf("trovata XMAS in diagonale top LEFT bottom RIGHT  %s\n", diagonalTLBR[basicIndex]);
+            }
+            else if (strncmp(&diagonalTRBl[basicIndex][0], "XMAS", 4) == 0)
+            {
+                output++;
+                printf("trovata XMAS in diagonale top RIGHT bottom LEFT %s\n", diagonalTRBl[basicIndex]);
+            }
+            else if (strncmp(&diagonalTRBl[basicIndex][0], "SAMX", 4) == 0)
+            {
+                output++;
+                printf("trovata XMAS in diagonale top RIGHT bottom LEFT  %s\n", diagonalTRBl[basicIndex]);
             }
 
-            printf("primo indice %s\n", orizontal[basicIndex]);
+            // printf("primo indice %s\n", vertical[basicIndex]);
             basicIndex++;
         }
 
+        printf("\n");
+        diagonalIndexTLBR++;
+        diagonalIndexTRBl--;
         verticalIndex++;
     }
-
-    for (int i = 0; i < 5; i++)
-    {
-        // orizontal[i][4] = '\0';
-        // printf("qua veritcal %s\n", orizontal[i]);
-    }
+    printf("risultato finale %i", output);
+    // for (int i = 0; i < 5; i++)
+    // {
+    //     printf("qua veritcal %s\n", vertical[i]);
+    //     printf("qua diagonale %s\n", diagonal[i]);
+    // }
 
     return 0;
 }
