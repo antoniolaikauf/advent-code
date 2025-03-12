@@ -63,7 +63,7 @@ int main()
         trimwhitespace(buffer);
 
         int basicIndex = 0;
-        
+
         if (vertical[0][0] == false)
         {
             int len = strlen(buffer);
@@ -79,13 +79,13 @@ int main()
             if ((diagonalIndexTRBl - basicIndex) >= 0)
             {
                 // printf("qua diagonale        %c e qua valore in %i \n", buffer[(diagonalIndexTRBl - basicIndex)], (diagonalIndexTRBl - basicIndex));
-                scaleArray(diagonalTRBl[basicIndex], buffer[(diagonalIndexTRBl - basicIndex)], verticalIndex);
-                printf("diagonale top right  %s  altro elemento %c\n", diagonalTRBl[basicIndex], buffer[(diagonalIndexTRBl - basicIndex)] );
+                // scaleArray(diagonalTRBl[ + basicIndex], buffer[(diagonalIndexTRBl - basicIndex)], verticalIndex);
+                printf("diagonale top right  %s  altro elemento %c\n", diagonalTRBl[basicIndex], buffer[(diagonalIndexTRBl - basicIndex)]);
             }
             if ((diagonalIndexTLBR + basicIndex) <= indexLast)
             {
                 // printf("qua diagonale        %c e qua valore in %i \n", buffer[(diagonalIndexTLBR + basicIndex)], diagonalIndexTLBR);
-                scaleArray(diagonalTLBR[basicIndex], buffer[(diagonalIndexTLBR + basicIndex)], verticalIndex);
+                // scaleArray(diagonalTLBR[basicIndex], buffer[(diagonalIndexTLBR + basicIndex)], verticalIndex);
             }
             // }
 
@@ -147,7 +147,7 @@ int main()
 }
 
 /*
-nelle diagonali ogni elemento dovrebbe partire un array 
+nelle diagonali ogni elemento dovrebbe partire un array
 
 
 */
