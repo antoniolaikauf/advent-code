@@ -26,6 +26,7 @@ char *trimwhitespace(char *str)
     return str;
 }
 
+// si mettono i caratteri delle coppie 
 void costruzioneCoppia(char *coppia, int index, char *buffer)
 {
     int IndexNumber = 0;
@@ -53,7 +54,6 @@ int main()
     while (fgets(buffer, sizeof(buffer), file))
     {
         trimwhitespace(buffer);
-        int indexDivisionString = 0;
 
         if (changeSolution)
         {
@@ -63,11 +63,14 @@ int main()
 
             for (int i = 0; i < strlen(buffer) - 1; i += 3)
             {
+                // creazione coppia 
                 costruzioneCoppia(coppia, i, buffer);
 
-                if (strlen(coppia) < 4)
+                // se coppia diversa da 4 allora non è una coppia 
+                if (strlen(coppia) == 4)
                     break;
-
+                
+                // ciclo su l'array delle combinazioni per vedere se la coppia è presente 
                 for (int indexCheck = 0; indexCheck < indexCombination; indexCheck++)
                 {
                     if (strcmp(coppia, combinazioni[indexCheck]) == 0)
@@ -79,6 +82,7 @@ int main()
                     }
                 }
             }
+            // si controlla se le coppie esistono nelle possibili combinazioni 
             if ((int)(strlen(buffer) / 3) == check)
             {
                 char number[3] = {buffer[(strlen(buffer) / 2) - 1], buffer[(strlen(buffer) / 2)], '\0'};
@@ -88,13 +92,17 @@ int main()
         }
         else
         {
+            // si cambia il parametro | con , per rendere il più possibile uguale alla sequenza 
             buffer[2] = ',';
+            // copiato la combinazione 
             strcpy(combinazioni[indexCombination], buffer);
             printf("combinazione: %s\n", combinazioni[indexCombination]);
             indexCombination++;
         }
+        // si inizia a contollare le sequenze 
         if (buffer[0] == 13)
         {
+            
             changeSolution = true;
             printf("ora le combinazioni");
         }
