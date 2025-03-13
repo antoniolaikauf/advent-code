@@ -113,7 +113,7 @@
 // }
 
 //------------------------------
-// PARTE DUE sbagliata 
+// PARTE DUE sbagliata
 //------------------------------
 
 #include <stdio.h>
@@ -190,52 +190,23 @@ int main()
                     break;
                 }
 
+                bool checkCoppia = false;
                 // ciclo su l'array delle combinazioni per vedere se la coppia è presente
                 for (int indexCheck = 0; indexCheck < indexCombination; indexCheck++)
                 {
 
-                    if (strcmp(coppia, combinazioni[indexCheck]) == 0)
+                    if ((strcmp(coppia, combinazioni[indexCheck]) == 0))
                     {
+                        checkCoppia = true;
                         check++;
                         // printf("Coppia generata: %s\n", coppia);
                         printf("buffer %s:                         %i\n", buffer, strcmp(coppia, combinazioni[indexCheck]) == 0);
                     }
-                    else
-                    {
-                        bool trovata = false;
-                        for (int indexLeft = 0; indexLeft < (indexCombination - 1); indexLeft++)
-                        {
-                            if (trovata)
-                            {
-                                break;
-                            }
-                            char valoreLeft[5] = {0};
-                            strcpy(valoreLeft, combinazioni[indexLeft]);
-                            printf("lato destro: %s\n", valoreLeft);
-                            char latoDestro[5] = {0};
-                            for (int j = 0; j < (indexCombination - 1); j++)
-                            {
-                                if (i + 6 < strlen(buffer))
-                                {
-                                    latoDestro[0] = valoreLeft[3];
-                                    latoDestro[1] = valoreLeft[4];
-                                    latoDestro[2] = ',';
-                                    latoDestro[3] = buffer[i + 6];
-                                    latoDestro[4] = buffer[i + 7];
-                                    latoDestro[5] = '\0';
-                                    // printf("lato destro: %s\n", latoDestro);
-                                }
+                }
 
-                                if ((strcmp(latoDestro, combinazioni[indexCheck]) == 0))
-                                {
-                                    trovata = true;
-                                    printf("TROVATA LA COPPIA\n");
-                                    printf("coppia sinistra %s   coppia detsra %s\n", valoreLeft, latoDestro);
-                                    break;
-                                }
-                            }
-                        }
-                    }
+                if (checkCoppia == false)
+                {
+                    printf("coppia sbagliata %s\n", coppia);
                 }
             }
             // si controlla se le coppie esistono nelle possibili combinazioni
@@ -247,6 +218,7 @@ int main()
             }
             else
             {
+
                 printf("buffer sbagliato %s\n", buffer);
             }
         }
@@ -272,13 +244,12 @@ int main()
     return 0;
 }
 
-
 /*
 61,13,29
 
-prima bisognerebbe controllare se se 61,13 esiste allora è 13 29 da aggiornare 
+prima bisognerebbe controllare se se 61,13 esiste allora è 13 29 da aggiornare
 
-allora devi fare un ciclo for per trovare tutte le combinazioni con 29 una volta trovate devi verificare che 61 e il nuovo numero esiste 
-se esiste hai trovato la combinazione giusta 
+allora devi fare un ciclo for per trovare tutte le combinazioni con 29 una volta trovate devi verificare che 61 e il nuovo numero esiste
+se esiste hai trovato la combinazione giusta
 
 */
