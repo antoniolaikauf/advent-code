@@ -113,7 +113,7 @@
 // }
 
 //------------------------------
-// PARTE DUE
+// PARTE DUE sbagliata 
 //------------------------------
 
 #include <stdio.h>
@@ -211,7 +211,7 @@ int main()
                             }
                             char valoreLeft[5] = {0};
                             strcpy(valoreLeft, combinazioni[indexLeft]);
-                            // printf("lato destro: %s\n", valoreLeft);
+                            printf("lato destro: %s\n", valoreLeft);
                             char latoDestro[5] = {0};
                             for (int j = 0; j < (indexCombination - 1); j++)
                             {
@@ -271,3 +271,14 @@ int main()
     printf("%i\n", output);
     return 0;
 }
+
+
+/*
+61,13,29
+
+prima bisognerebbe controllare se se 61,13 esiste allora è 13 29 da aggiornare 
+
+allora devi fare un ciclo for per trovare tutte le combinazioni con 29 una volta trovate devi verificare che 61 e il nuovo numero esiste 
+se esiste hai trovato la combinazione giusta 
+
+*/
