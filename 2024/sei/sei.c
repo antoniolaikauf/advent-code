@@ -4,18 +4,29 @@
 #include <stdlib.h>
 #include <ctype.h>
 
+void changePath(char path[])
+{
+    if (path[0] == '^')
+        path[0] = '>';
+    else if (path[0] == '>')
+        path[0] = 'v';
+    else if (path[0] == '<')
+        path[0] = '^';
+    else if (path[0] == 'v')
+        path[0] = '<';
+}
+
 int main()
 {
-    FILE *file = fopen("input.txt", "r");
+    FILE *file = fopen("small.txt", "r");
     char buffer[250];
-    int place[250][3] = {0};
+    int place[400][3] = {0};
     int positionGuard[2] = {0, 0};
-    char directionGuard[5] = {'^', 'v', '>', '<', '\0'};
-    int guard = 0;
+    char guard[] = {0};
     int index = 0;
-    int indexCount = 0;
     char object[] = "#";
-
+    bool orizzontal = false;
+    bool vertical = false;
     int heigthMap = 0;
 
     while (fgets(buffer, sizeof(buffer), file))
@@ -33,15 +44,7 @@ int main()
             else if (buffer[idxObject] == '^' || buffer[idxObject] == 'v' ||
                      buffer[idxObject] == '>' || buffer[idxObject] == '<')
             {
-                if (buffer[idxObject] == directionGuard[0])
-                    guard = 0;
-                else if (buffer[idxObject] == directionGuard[1])
-                    guard = 1;
-                else if (buffer[idxObject] == directionGuard[2])
-                    guard = 2;
-                else if (buffer[idxObject] == directionGuard[3])
-                    guard = 3;
-
+                guard[0] = buffer[idxObject];
                 positionGuard[0] = idxObject;
                 positionGuard[1] = heigthMap;
                 printf("%c --> %i in ascisse --> %i in ordinate\n", buffer[idxObject], positionGuard[0], positionGuard[1]);
@@ -51,10 +54,77 @@ int main()
         heigthMap++;
     }
 
-    while ((positionGuard[0] > 0 && positionGuard[0] < (strlen(buffer) - 1)) && (positionGuard[1] > 0 && positionGuard[1] < heigthMap))
+    printf("\n");
+
+    int output = 0;
+    while ((positionGuard[0] > 0 && positionGuard[0] < (strlen(buffer) - 1)) && (positionGuard[1] > 0 && positionGuard[1] < heigthMap - 1))
     {
-        positionGuard[0]--;
-        printf(" --> %i in ascisse --> %i in ordinate\n",  positionGuard[0], positionGuard[1]);
+
+        for (int i = 0; i < index; i++)
+        {
+            // printf(" ququququq --> %i in ascisse --> %i in ordinate\n", place[i][0], place[i][1]);
+            if (place[i][0] == positionGuard[0] - 1 && place[i][1] == positionGuard[1] && orizzontal)
+            {
+                printf("entro sinistra --> %i in ascisse --> %i in ordinate\n", positionGuard[0], positionGuard[1]);
+                // printf("entro sinistra --> %i in ascisse --> %i in ordinate\n", place[i][0], place[i][1]);
+                printf("sinistra\n");
+                changePath(guard);
+                break;
+            }
+            else if (place[i][0] == positionGuard[0] + 1 && place[i][1] == positionGuard[1] && orizzontal)
+            {
+                printf("entro destra --> %i in ascisse --> %i in ordinate\n", positionGuard[0], positionGuard[1]);
+                printf("destra\n");
+                changePath(guard);
+                break;
+            }
+            else if (place[i][0] == positionGuard[0] && place[i][1] == positionGuard[1] - 1 && vertical)
+            {
+                printf("entro su --> %i in ascisse --> %i in ordinate\n", positionGuard[0], positionGuard[1]);
+                printf("su\n");
+                changePath(guard);
+                break;
+            }
+            else if (place[i][0] == positionGuard[0] && place[i][1] == positionGuard[1] + 1 && vertical)
+            {
+                printf("entro giu --> %i in ascisse --> %i in ordinate\n", positionGuard[0], positionGuard[1]);
+                printf("gius\n");
+                changePath(guard);
+                break;
+            }
+        }
+
+        output++;
+        if (guard[0] == '^')
+        {
+            vertical = true;
+            orizzontal = false;
+            positionGuard[1]--;
+            printf("si va su\n");
+        }
+        else if (guard[0] == '>')
+        {
+            vertical = false;
+            orizzontal = true;
+            positionGuard[0]++;
+            printf("si va destra\n");
+        }
+        else if (guard[0] == '<')
+        {
+            vertical = false;
+            orizzontal = true;
+            printf("si va sinistra\n");
+            positionGuard[0]--;
+        }
+        else if (guard[0] == 'v')
+        {
+            vertical = true;
+            orizzontal = false;
+            printf("si va giu\n");
+            positionGuard[1]++;
+        }
+        printf("DOPOO --> %i in ascisse --> %i in ordinate\n", positionGuard[0], positionGuard[1]);
+        printf("output --> %i\n", output);
     }
 
     return 0;
