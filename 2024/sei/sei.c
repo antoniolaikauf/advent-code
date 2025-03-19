@@ -18,26 +18,31 @@ void changePath(char path[])
 
 int main()
 {
-    FILE *file = fopen("small.txt", "r");
+    FILE *file = fopen("input.txt", "r");
+    if (!file)
+    {
+        perror("Failed to open file");
+        return 1;
+    }
+
     char buffer[250];
-    int place[400][3] = {0};
+    int place[1500][3] = {0};
     int positionGuard[2] = {0, 0};
-    char guard[] = {0};
+    char guard[2] = {0};
     int index = 0;
     char object[] = "#";
     bool orizzontal = false;
     bool vertical = false;
-    int heigthMap = 0;
+    int heightMap = 0;
 
     while (fgets(buffer, sizeof(buffer), file))
     {
-        // printf("linea %s\n", buffer);
         for (int idxObject = 0; idxObject < (strlen(buffer) - 1); idxObject++)
         {
-            if (buffer[idxObject] == object[0]) // Compare characters directly
+            if (buffer[idxObject] == object[0])
             {
                 place[index][0] = idxObject;
-                place[index][1] = heigthMap;
+                place[index][1] = heightMap;
                 printf("%c --> %i in ascisse --> %i in ordinate\n", buffer[idxObject], place[index][0], place[index][1]);
                 index++;
             }
@@ -46,27 +51,30 @@ int main()
             {
                 guard[0] = buffer[idxObject];
                 positionGuard[0] = idxObject;
-                positionGuard[1] = heigthMap;
+                positionGuard[1] = heightMap;
                 printf("%c --> %i in ascisse --> %i in ordinate\n", buffer[idxObject], positionGuard[0], positionGuard[1]);
             }
         }
 
-        heigthMap++;
+        heightMap++;
     }
+
+    fclose(file);
 
     printf("\n");
 
+    int visited[300][300] = {0};
+    visited[positionGuard[1]][positionGuard[0]] = 1;
+    printf("%i visitato\n", visited[positionGuard[1]][positionGuard[0]]);
     int output = 0;
-    while ((positionGuard[0] > 0 && positionGuard[0] < (strlen(buffer) - 1)) && (positionGuard[1] > 0 && positionGuard[1] < heigthMap - 1))
-    {
 
+    while ((positionGuard[0] > 0 && positionGuard[0] < (strlen(buffer) - 1)) && (positionGuard[1] > 0 && positionGuard[1] < heightMap))
+    {
         for (int i = 0; i < index; i++)
         {
-            // printf(" ququququq --> %i in ascisse --> %i in ordinate\n", place[i][0], place[i][1]);
             if (place[i][0] == positionGuard[0] - 1 && place[i][1] == positionGuard[1] && orizzontal)
             {
                 printf("entro sinistra --> %i in ascisse --> %i in ordinate\n", positionGuard[0], positionGuard[1]);
-                // printf("entro sinistra --> %i in ascisse --> %i in ordinate\n", place[i][0], place[i][1]);
                 printf("sinistra\n");
                 changePath(guard);
                 break;
@@ -94,7 +102,6 @@ int main()
             }
         }
 
-        output++;
         if (guard[0] == '^')
         {
             vertical = true;
@@ -123,9 +130,16 @@ int main()
             printf("si va giu\n");
             positionGuard[1]++;
         }
+
+        if (visited[positionGuard[1]][positionGuard[0]] != 1)
+        {
+            output++;
+        }
+
+        visited[positionGuard[1]][positionGuard[0]] = 1;
         printf("DOPOO --> %i in ascisse --> %i in ordinate\n", positionGuard[0], positionGuard[1]);
-        printf("output --> %i\n", output);
     }
 
+    printf("output --> %i\n", output);
     return 0;
 }
