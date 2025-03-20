@@ -192,6 +192,7 @@
 #include <stdlib.h>
 #include <ctype.h>
 
+#define MATRIX 100
 // funzione per cambiare sentiero
 void changePath(char path[])
 {
@@ -294,7 +295,7 @@ void move(int indice, bool verticale, bool orizzonatle, int posto[][3], int posi
 
 int main()
 {
-    FILE *file = fopen("input.txt", "r");
+    FILE *file = fopen("small.txt", "r");
     if (!file)
     {
         perror("Failed to open file");
@@ -315,6 +316,7 @@ int main()
     bool vertical = false;
 
     int heightMap = 0;
+    int idxObject = 0;
 
     while (fgets(buffer, sizeof(buffer), file))
     {
@@ -346,7 +348,7 @@ int main()
     printf("\n");
 
     // posizione visistata
-    int visited[300][300] = {0};
+    int visited[MATRIX][MATRIX] = {0};
     visited[positionGuard[1]][positionGuard[0]] = 1;
 
     int output = 0;
@@ -379,6 +381,25 @@ int main()
         printf("DOPOO --> %i in ascisse --> %i in ordinate\n", positionGuard[0], positionGuard[1]);
     }
 
+    for (int idxtr = 0; idxtr < output; idxtr++)
+    {
+        int row = heightMap;
+        for (int i = 0; i < row; i++)
+        {
+            for (int j = 0; j < strlen(buffer); j++)
+            {
+                if (visited[i][j] == 1)
+                {
+                    place[index + 1][0] = i;
+                    place[index + 1][1] = j;
+                    // printf("elemento matrice %i\n", visited[i][j]);
+                    printf(" --> %i  --> %i in ordinate\n", i, j);
+                }
+            }
+        }
+        break;
+    }
+    // printf("DOPOO --> %i in ascisse --> %i in ordinate\n", place[index + 1][0], place[index + 1][1]);
     printf("output --> %i\n", output);
     return 0;
 }
