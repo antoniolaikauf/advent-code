@@ -223,7 +223,6 @@ void position(char guardia[], int posizione[], bool *verticale, bool *orizzonatl
         *verticale = true;
         *orizzonatle = false;
         posizione[1]--;
-        printf("si va su\n");
     }
     // si aumenta essendo che si va a destra
     else if (guardia[0] == '>')
@@ -231,14 +230,14 @@ void position(char guardia[], int posizione[], bool *verticale, bool *orizzonatl
         *verticale = false;
         *orizzonatle = true;
         posizione[0]++;
-        printf("si va destra\n");
+        // printf("si va destra\n");
     }
     // si dimnuisce essendo che va a sinistra
     else if (guardia[0] == '<')
     {
         *verticale = false;
         *orizzonatle = true;
-        printf("si va sinistra\n");
+        // printf("si va sinistra\n");
         posizione[0]--;
     }
     // si aumenta essendo che si scende
@@ -246,29 +245,29 @@ void position(char guardia[], int posizione[], bool *verticale, bool *orizzonatl
     {
         *verticale = true;
         *orizzonatle = false;
-        printf("si va giu\n");
+        // printf("si va giu\n");
         posizione[1]++;
     }
 }
 
-void move(int indice, bool verticale, bool orizzonatle, int posto[][3], int posizione[], char guardia[])
+void move(int indice, bool verticale, bool orizzontale, int posto[][3], int posizione[], char guardia[])
 {
     for (int i = 0; i < indice; i++)
     {
-        if (orizzonatle)
+        if (orizzontale)
         {
             if (posto[i][0] == posizione[0] - 1 && posto[i][1] == posizione[1])
             {
-                printf("entro sinistra --> %i in ascisse --> %i in ordinate\n", posizione[0], posizione[1]);
-                printf("sinistra\n");
+                // printf("entro sinistra --> %i in ascisse --> %i in ordinate\n", posizione[0], posizione[1]);
                 changePath(guardia);
+                // printf("%c sinistra\n", guardia[0]);
                 break;
             }
             else if (posto[i][0] == posizione[0] + 1 && posto[i][1] == posizione[1])
             {
-                printf("entro destra --> %i in ascisse --> %i in ordinate\n", posizione[0], posizione[1]);
-                printf("destra\n");
+                // printf("entro destra --> %i in ascisse --> %i in ordinate\n", posizione[0], posizione[1]);
                 changePath(guardia);
+                // printf("%c destra\n", guardia[0]);
                 break;
             }
         }
@@ -277,20 +276,58 @@ void move(int indice, bool verticale, bool orizzonatle, int posto[][3], int posi
 
             if (posto[i][0] == posizione[0] && posto[i][1] == posizione[1] - 1)
             {
-                printf("entro su --> %i in ascisse --> %i in ordinate\n", posizione[0], posizione[1]);
-                printf("su\n");
+                // printf("entro su --> %i in ascisse --> %i in ordinate\n", posizione[0], posizione[1]);
                 changePath(guardia);
+                // printf("%c suu\n", guardia[0]);
                 break;
             }
             else if (posto[i][0] == posizione[0] && posto[i][1] == posizione[1] + 1)
             {
-                printf("entro giu --> %i in ascisse --> %i in ordinate\n", posizione[0], posizione[1]);
-                printf("gius\n");
+                // printf("entro giu --> %i in ascisse --> %i in ordinate\n", posizione[0], posizione[1]);
                 changePath(guardia);
+                // printf("%c gius\n", guardia[0]);
                 break;
             }
         }
     }
+}
+
+bool check(int positionGuardX, int positionGuardY, int positionGuardX2, int positionGuardY2, bool verticale, bool orizzonatele)
+{
+
+    // printf("guardia posizione--> %i in ascisse --> %i in ordinate\n", positionGuardX, positionGuardY);
+    // printf("guardia posizione seconda --> %i in ascisse --> %i in ordinate\n", positionGuardX2, positionGuardY2);
+    // 4 -6 4 -5 orizzontale
+    if (orizzonatele)
+    {
+        if (positionGuardX == positionGuardX2 - 1 && positionGuardY == positionGuardY2)
+        {
+            printf("sinistra\n");
+            return true;
+        }
+        else if (positionGuardX == positionGuardX2 - 1 && positionGuardY == positionGuardY2)
+        {
+            printf("destra\n");
+            return true;
+        }
+    }
+    else if (verticale)
+    {
+
+        if (positionGuardX == positionGuardX2 && positionGuardY == positionGuardY2 - 1)
+        {
+            printf("su\n");
+            return true;
+        }
+        else if (positionGuardX == positionGuardX2 && positionGuardY == positionGuardY2 + 1)
+        {
+            printf("giu\n");
+
+            return true;
+        }
+    }
+
+    return false;
 }
 
 int main()
@@ -309,6 +346,9 @@ int main()
 
     int positionGuard[2] = {0, 0}; // posizione guardia
     char guard[2] = {0};           // segno guardia
+    int stratPositionGuard[2] = {0, 0};
+    int secondPositionGuard[2] = {0, 0};
+    char startGuard[2] = {0};
 
     char object[] = "#";
 
@@ -335,9 +375,34 @@ int main()
                      buffer[idxObject] == '>' || buffer[idxObject] == '<')
             {
                 guard[0] = buffer[idxObject];
+                startGuard[0] = buffer[idxObject];
                 positionGuard[0] = idxObject;
                 positionGuard[1] = heightMap;
-                printf("%c --> %i in ascisse --> %i in ordinate\n", buffer[idxObject], positionGuard[0], positionGuard[1]);
+
+                stratPositionGuard[0] = idxObject;
+                stratPositionGuard[1] = heightMap;
+
+                if (buffer[idxObject] == '^')
+                {
+                    secondPositionGuard[0] = idxObject;
+                    secondPositionGuard[1] = heightMap - 1;
+                }
+                else if (buffer[idxObject] == '>')
+                {
+                    secondPositionGuard[0] = idxObject + 1;
+                    secondPositionGuard[1] = heightMap;
+                }
+                else if (buffer[idxObject] == '<')
+                {
+                    secondPositionGuard[0] = idxObject - 1;
+                    secondPositionGuard[1] = heightMap;
+                }
+                else if (buffer[idxObject] == 'v')
+                {
+                    secondPositionGuard[0] = idxObject;
+                    secondPositionGuard[1] = heightMap + 1;
+                }
+                // printf("guardia seonda posizione  %c --> %i in ascisse --> %i in ordinate\n", buffer[idxObject], secondPositionGuard[0], secondPositionGuard[1]);
             }
         }
         heightMap++;
@@ -357,30 +422,18 @@ int main()
     while ((positionGuard[0] > 0 && positionGuard[0] < (strlen(buffer) - 1)) && (positionGuard[1] > 0 && positionGuard[1] < heightMap))
     {
 
-        /*
-        ciclo per controllare se guardia ha raggiunto la posizione
-        messo un controllo anche orizzontal e vertical essendo che se la guardia va lateralmente deve controllare solo verticalmente e quindi
-        su asse delle ascisse
-        es. magari la guardia si sta muovendo verticalmente e quindi cambia l'asse delle ordinate
-        es. 8-3, 8-4, 8-5
-        ora fa i controlli e se controlla cambiando anche l'asse delle ascisse si rischierebbe di trovare una posizione che non centra
-        es 7-5 anche se si stava andando in verticale, e quindi per evitare questo messo un controllo in piu
-        questo controllo c'è anche per l'altro asse
-        */
         move(index, vertical, orizzontal, place, positionGuard, guard);
 
         position(guard, positionGuard, &vertical, &orizzontal);
 
+        output++;
         // si controlla che la guardia non abbia gia percorso le cordinate
-        if (visited[positionGuard[1]][positionGuard[0]] != 1)
-        {
-            output++;
-        }
 
         visited[positionGuard[1]][positionGuard[0]] = 1; // si setta la cordinata della guardia per far vedere che è gia passata
-        printf("DOPOO --> %i in ascisse --> %i in ordinate\n", positionGuard[0], positionGuard[1]);
+        // printf("DOPOO --> %i in ascisse --> %i in ordinate\n", positionGuard[0], positionGuard[1]);
     }
 
+    int doppioni = 0;
     for (int idxtr = 0; idxtr < output; idxtr++)
     {
         int row = heightMap;
@@ -392,14 +445,43 @@ int main()
                 {
                     place[index + 1][0] = i;
                     place[index + 1][1] = j;
-                    // printf("elemento matrice %i\n", visited[i][j]);
-                    printf(" --> %i  --> %i in ordinate\n", i, j);
+                    guard[0] = startGuard[0];
+
+                    positionGuard[0] = stratPositionGuard[0];
+                    positionGuard[1] = stratPositionGuard[1];
+
+                    bool orizzontal = false;
+                    bool vertical = false;
+
+                    while ((positionGuard[0] > 0 && positionGuard[0] < (strlen(buffer) - 1)) && (positionGuard[1] > 0 && positionGuard[1] < heightMap))
+                    {
+
+                        move(index, vertical, orizzontal, place, positionGuard, guard);
+                        position(guard, positionGuard, &vertical, &orizzontal);
+
+                        if (stratPositionGuard[0] == positionGuard[0] && stratPositionGuard[1] == positionGuard[1])
+                        {
+                            // bisognerebbe calcolare anche la sua prossima direzzione essendo che il if sopra controlla se l'attuale posizione è arrivata
+                            // al punto da dove è partita la guardia ma non è abbastanza bisogna vedere se la sua prossima mossa sarebbe stata la sua seconda mossa
+                            // e quindi anche controllare la sua direzione ^ v > <
+                            if (check(positionGuard[0], positionGuard[1], secondPositionGuard[0], secondPositionGuard[1], vertical, orizzontal))
+                            {
+                                printf("asse--> %i in ascisse --> %i in ordinate\n", orizzontal, vertical);
+                                printf("guardia posizione--> %i in ascisse --> %i in ordinate\n", positionGuard[0], positionGuard[1]);
+                                printf("guardia posizione seconda --> %i in ascisse --> %i in ordinate\n", secondPositionGuard[0], secondPositionGuard[1]);
+                                doppioni++;
+                                break;
+                            }
+                        }
+
+                        // si controlla che la guardia non abbia gia percorso le cordinate
+                    }
                 }
             }
         }
-        break;
     }
-    // printf("DOPOO --> %i in ascisse --> %i in ordinate\n", place[index + 1][0], place[index + 1][1]);
-    printf("output --> %i\n", output);
+    printf("doppioni --> %i\n", doppioni);
     return 0;
 }
+
+// NON FINITO
