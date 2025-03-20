@@ -1,3 +1,7 @@
+//-----------------------------------
+// PARTE UNO
+//-----------------------------------
+
 // #include <stdio.h>
 // #include <stdbool.h>
 // #include <string.h>
@@ -298,8 +302,8 @@ bool check(int positionGuardX, int positionGuardY, int positionGuardX2, int posi
     // printf("guardia posizione--> %i in ascisse --> %i in ordinate\n", positionGuardX, positionGuardY);
     // printf("guardia posizione seconda --> %i in ascisse --> %i in ordinate\n", positionGuardX2, positionGuardY2);
     // 4 -6 4 -5 orizzontale
-    if (orizzonatele)
-    {
+    // if (orizzonatele)
+    // {
         if (positionGuardX == positionGuardX2 - 1 && positionGuardY == positionGuardY2)
         {
             printf("sinistra\n");
@@ -310,9 +314,9 @@ bool check(int positionGuardX, int positionGuardY, int positionGuardX2, int posi
             printf("destra\n");
             return true;
         }
-    }
-    else if (verticale)
-    {
+    // }
+    // else if (verticale)
+    // {
 
         if (positionGuardX == positionGuardX2 && positionGuardY == positionGuardY2 - 1)
         {
@@ -325,7 +329,7 @@ bool check(int positionGuardX, int positionGuardY, int positionGuardX2, int posi
 
             return true;
         }
-    }
+    // }
 
     return false;
 }
@@ -348,7 +352,7 @@ int main()
     char guard[2] = {0};           // segno guardia
     int stratPositionGuard[2] = {0, 0};
     int secondPositionGuard[2] = {0, 0};
-    char startGuard[2] = {0};
+    char startGuard[2] = {0}; // seconda posizione della guardia
 
     char object[] = "#";
 
@@ -461,12 +465,44 @@ int main()
 
                         if (stratPositionGuard[0] == positionGuard[0] && stratPositionGuard[1] == positionGuard[1])
                         {
+
                             // bisognerebbe calcolare anche la sua prossima direzzione essendo che il if sopra controlla se l'attuale posizione è arrivata
                             // al punto da dove è partita la guardia ma non è abbastanza bisogna vedere se la sua prossima mossa sarebbe stata la sua seconda mossa
                             // e quindi anche controllare la sua direzione ^ v > <
+
+                            // non so come fare questa parte di controllare dove deve andare la guardia e confrontare che la sua mossa successiva è quella della 
+                            // startGuard cosi che oltre a confrontare che la guardia è arrivata al suo punto di partenza confronta anche la sua mossa successiva che 
+                            // con le cordinate è abbastanza facile ma con le ^ v > < 
+                            // if (guard[0] == '<')
+                            // {
+                            //     vertical = true;
+                            //     orizzontal = false;
+                            // }
+                            // // // si aumenta essendo che si va a destra
+                            // // else if (guard[0] == '>')
+                            // // {
+                            // //     vertical = false;
+                            // //     orizzontal = true;
+                            // //     // printf("si va destra\n");
+                            // // }
+                            // // // si dimnuisce essendo che va a sinistra
+                            // // else if (guard[0] == '^')
+                            // // {
+                            // //     vertical = false;
+                            // //     orizzontal = true;
+                            // //     // printf("si va sinistra\n");
+                            // // }
+                            // // // si aumenta essendo che si scende
+                            // // else if (guard[0] == 'v')
+                            // // {
+                            // //     vertical = true;
+                            // //     orizzontal = false;
+                            // //     // printf("si va giu\n");
+                            // // }
+
+                            printf("asse--> %i in ascisse --> %i in ordinate --> verso %c\n", orizzontal, vertical, guard[0]);
                             if (check(positionGuard[0], positionGuard[1], secondPositionGuard[0], secondPositionGuard[1], vertical, orizzontal))
                             {
-                                printf("asse--> %i in ascisse --> %i in ordinate\n", orizzontal, vertical);
                                 printf("guardia posizione--> %i in ascisse --> %i in ordinate\n", positionGuard[0], positionGuard[1]);
                                 printf("guardia posizione seconda --> %i in ascisse --> %i in ordinate\n", secondPositionGuard[0], secondPositionGuard[1]);
                                 doppioni++;
