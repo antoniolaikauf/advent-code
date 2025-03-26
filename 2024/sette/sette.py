@@ -89,10 +89,15 @@ OPERATORS2 = [PLUS, MULTIPLY, CONCAT]
 
 
 def left_right_eval(operands, operators):
+
     assert len(operands) == len(operators) + 1
     result = operands[0]
+
     expr = [str(operands[0])]
-    for val, op in zip(operands[1:], operators):
+
+# zip accoppia un numero e un operatore operands = [81, 40, 27], operators = ['+', '*'] → coppie: (40, '+'), (27, '*')
+    for val, op in zip(operands[1:], operators): 
+        # in expr si crea la equazione aggiungendo ogni volta quello che ha creato la zip 
         expr.extend([op, str(val)])
         if op == PLUS:
             result += val
@@ -100,15 +105,18 @@ def left_right_eval(operands, operators):
             result *= val
         elif op == CONCAT:
             result = int(f"{result}{val}")
+            
     expression = ' '.join(expr)
+
     return result, expression
 
 
 def resolve(value, operands) -> bool:
     n = len(operands) - 1
     # print(f"-- resolve({value}, {operands}")
-    for operators in itertools.product(OPERATORS, repeat=n):
-        result, expression = left_right_eval(operands, operators)
+    #itertools.product creerebbe tutte le possibili combinazioni per quindi in un equazione di 3 coefficienti ci possono essere 4 combinazioni 
+    for operators in itertools.product(OPERATORS, repeat=n): 
+        result, expression = left_right_eval(operands, operators) 
         if result == value:
             # print(f".. {result} <- {expression}")
             return True
@@ -131,8 +139,8 @@ def parse_input(lines: Lines) -> list[Any]:
     for line in lines:
         if not line.strip():
             continue
-        value, rest = line.strip().split(":") # 
-        operands = list(map(int, rest.split()))
+        value, rest = line.strip().split(":") # divide la riga in risultato e numeri 
+        operands = list(map(int, rest.split())) # array con dentro tutte le possibili combinazioni
         result.append((int(value), operands))
     return result
 
