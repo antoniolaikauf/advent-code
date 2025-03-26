@@ -13,6 +13,7 @@ int main()
 
     char buffer[250];
     int result = 0;
+    int output = 0;
 
     while (fgets(buffer, sizeof(buffer), file))
     {
@@ -43,6 +44,34 @@ int main()
 
         if (resultAdd > result || resultProd > result)
         {
+            for (int i = 0; i < indexNumber; i++)
+            {
+                int numberTry = i == 0 ? 0 : 1;
+                int number = equation[i];
+                bool correct = false;
+                for (int y = 0; y < indexNumber; y++)
+                {
+                    if (equation[y] == number)
+                    {
+                        numberTry += equation[y];
+                        // printf("output: %i\n", numberTry);
+                    }
+                    else
+                    {
+                        numberTry *= equation[y];
+                        // printf("output: %i\n", numberTry);
+                    }
+
+                    if (numberTry == result)
+                    {
+                        correct = true;
+                        output += numberTry;
+                        printf("output: %i\n", output);
+                    }
+                }
+                if (correct)
+                    break;
+            }
             printf("obbiettivo è %i il risultato addizione è: %i il risulato prodotto è:%i \n", result, resultAdd, resultProd);
         }
     }
