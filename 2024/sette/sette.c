@@ -6,7 +6,7 @@
 
 int main()
 {
-    FILE *file = fopen("small.txt", "r");
+    FILE *file = fopen("input.txt", "r");
 
     if (file == NULL)
         return 0;
@@ -20,59 +20,74 @@ int main()
         int equation[250] = {0};
 
         char *token = strtok(buffer, ":");
+        // risultato da ottenere
         result = atoi(token);
         int indexNumber = 0;
 
-        token = strtok(NULL, " "); // Get next token before the loop
+        token = strtok(NULL, " ");
 
         while (token != NULL)
         {
-            equation[indexNumber] = atoi(token); // Move this before next strtok
-            // printf("%i\n", equation[indexNumber]);
+            // valori per la equazione
+            equation[indexNumber] = atoi(token);
+            token = strtok(NULL, " ");
             indexNumber++;
-            token = strtok(NULL, " "); // Get next token
         }
 
-        int resultAdd = 0;
-        int resultProd = 1;
+        // slot per inserire i + o -
+        int op_count = indexNumber - 1;
+        // tutte le combinazioni possibili sarebbero 2 ^ op_count essendo che per ogni spazio o c'è * o +
+        int total_combinations = 1 << op_count;
 
-        for (int i = 0; i < indexNumber; i++)
+        // ciclo su tutte le combinazioni
+        for (int i = 0; i < total_combinations; i++)
         {
-            resultAdd += equation[i];
-            resultProd *= equation[i];
-        }
+            int temp = i;
+            // array che conterra la combinazione
+            char combinations[20];
 
-        if (resultAdd > result || resultProd > result)
-        {
-            for (int i = 0; i < indexNumber; i++)
+            /*
+            questo ciclo che crea le combinazioni si basa sul modulo
+
+            es 81 40 27 ci possono essere 4 combinazioni
+            0 % 2 sarà sempre 0 e quindi false e metterà ++
+            1 % 2 sarà 1 e dopo si divide e divintera 0 % 2 e quindi la composizione sarà *+
+            2 % 2 sarà 0 e dopo si divide e sarà 1 % 2 e quindi composizione sarà +*
+            3 % 2 sarà 1 e dopo si divide e sarà 1 % 2 e quindi composizione sarà **
+            in questo modo si hanno tutte le composizioni
+            */
+            for (int j = 0; j < op_count; j++)
             {
-                int numberTry = i == 0 ? 0 : 1;
-                int number = equation[i];
-                bool correct = false;
-                for (int y = 0; y < indexNumber; y++)
-                {
-                    if (equation[y] == number)
-                    {
-                        numberTry += equation[y];
-                        // printf("output: %i\n", numberTry);
-                    }
-                    else
-                    {
-                        numberTry *= equation[y];
-                        // printf("output: %i\n", numberTry);
-                    }
-
-                    if (numberTry == result)
-                    {
-                        correct = true;
-                        output += numberTry;
-                        printf("output: %i\n", output);
-                    }
-                }
-                if (correct)
-                    break;
+                combinations[j] = (temp % 2) ? '*' : '+';
+                temp /= 2;
             }
-            printf("obbiettivo è %i il risultato addizione è: %i il risulato prodotto è:%i \n", result, resultAdd, resultProd);
+            combinations[op_count] = '\0';
+
+            int indexNumber = 0;
+            int tryNumber = equation[indexNumber];
+
+            // ciclo per fare le operazioni
+            for (int j = 0; j < op_count; j++)
+            {
+
+                if (combinations[j] == '*')
+                    tryNumber *= equation[indexNumber + 1];
+                else
+                    tryNumber += equation[indexNumber + 1];
+
+                indexNumber++;
+            }
+
+            if (tryNumber == result)
+            {
+                output += tryNumber;
+                break;
+            }
         }
     }
+    printf("output = %i\n", output);
 }
+
+
+// 1291527431
+// 28730327770375
